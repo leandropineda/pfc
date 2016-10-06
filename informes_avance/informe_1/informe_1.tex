@@ -1,0 +1,65 @@
+\documentclass[a4paper,10pt, oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage[table]{xcolor}
+%\usepackage{showframe}
+\usepackage[a4paper]{geometry}
+\usepackage{caption}
+
+\usepackage{lscape} 
+
+
+\bibliography{informe_1}
+
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+
+
+	
+\begin{document}
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.25\textwidth]{../../Universidad_del_Litoral}\par\vspace{1cm}
+	{\scshape\LARGE Universidad Nacional del Litoral \par}
+	\vspace{1cm}
+	{\scshape\Large Proyecto Final de Carrera\par}
+	\vspace{1.5cm}
+	{\huge\bfseries Diseño de un sistema de detección de anomalías en redes de computadoras.\par}
+	\vspace{1.5cm}
+	{\huge\bfseries Informe de avance 1\par}
+	\vspace{2cm}
+	{\Large\itshape Pineda Leandro\par}
+	\vfill
+	dirigido por Ing. Miguel Angel Robledo\par
+	codirigido por Ing. Gabriel Filippa
+	
+	\vfill
+	
+	% Bottom of the page
+	\large Santa Fe\par
+	{\large \today\par}
+	
+\end{titlepage}
+
+\modulolinenumbers[5]
+%\linenumbers
+
+\newpage
+
+\section*{Resumen}
+El presente documento muestra los resultados obtenidos de la etapa de investigación del proyecto final de carrera de Ingeniería en Informática. En primer lugar se mostrará un análisis sobre el modelado del problema y los distintos métodos existentes para la detección de anomalías. Luego se describirán las tecnologías a utilizar, la arquitectura del sistema y sus componentes. Finalmente se dará una breve descripción de las técnicas de modelado a utilizar para detectar anomalías en el tráfico de red.
+
+\section*{Introducción}
+El tráfico de red puede ser caracterizado por la información disponible en la cabecera de los paquetes. El modelo TCP/IP establece que los host deben soportar como mínimo los protocolos IP, ICMP, TCP y UDP\cite{rfc1122}. Estos tienen en común dirección de origen y destino: en capa de red se utilizan direcciones IP\cite{rfc791} y en capa de transporte se utilizan puertos\cite{rfc768}\cite{rfc793}. Podemos identificar entonces un flujo IP entre dos \textit{host} por una tupla de 5 valores, los cuales forman un espacio de $2^{104}$ características:
+\[\langle IP\ de\ origen,\ IP\ de\ destino,\ puerto\ de\ origen,\ puerto\ de\ destino,\ protocolo \rangle\]
+Caracterizar trafico normal utilizando un espacio de tantas dimensiones implica el uso de grandes cantidades de memoria.
+
+
+
+\nocite{*}
+\printbibliography
+\end{document}
+
