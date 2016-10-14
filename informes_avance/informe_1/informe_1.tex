@@ -6,7 +6,8 @@
 \usepackage{lineno}
 \usepackage[table]{xcolor}
 %\usepackage{showframe}
-\usepackage[a4paper]{geometry}
+
+\usepackage[top=1in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
 \usepackage{caption}
 \usepackage{bytefield}
 
@@ -118,7 +119,8 @@ Actualmente la comunidad de software libre mantiene tres frameworks importantes 
 \newpage
 \section*{Anexos}
 
-\begin{center}
+\begin{figure}[htpb]
+	\centering
 	\begin{bytefield}{32}
 		\bitheader{0,3,4,7,8,15,16,18,19,23,24,31} \\
 		\bitbox{4}{Version} &
@@ -136,18 +138,48 @@ Actualmente la comunidad de software libre mantiene tres frameworks importantes 
 		\bitbox{24}{Options} &
 		\bitbox{8}{Padding} \\
 	\end{bytefield}
-\end{center}
-
-\begin{center}
+	\caption{Cabecera IP}
+	\vspace{1cm}
+	
 	\begin{bytefield}{32}
-		\bitheader{0,7,8,15,31} \\
+		\bitheader{0,7,8,15,16,31} \\
 		\bitbox{8}{Type} &
 		\bitbox{8}{Code} &
 		\bitbox{16}{Checksum} \\
 		\bitbox{32}{Rest of header} \\
-		\wordbox{2}{Internet Header + 8 bytes of Original Datagram}
+		\wordbox{2}{Internet Header + 8 bytes of Original Datagram} \\
 	\end{bytefield}
-\end{center}
+	\caption{Cabecera ICMP}
+	\vspace{1cm}
+	
+	\begin{bytefield}{32}
+		\bitheader{0,15,31} \\
+		\bitbox{16}{Source Port} &
+		\bitbox{16}{Destination Port} \\
+		\bitbox{16}{Sequence Number} &
+		\bitbox{16}{Acknowlegment Number} \\
+	\end{bytefield}
+	\caption{Cabecera UDP}
+	\vspace{1cm}
+				
+	\begin{bytefield}{32}
+		\bitheader{0,3,4,6,7,15,16,31} \\
+		\bitbox{16}{Source Port} &
+		\bitbox{16}{Destination Port} \\
+		\bitbox{32}{Sequence Number} \\
+		\bitbox{32}{Acknowlegment Number} \\
+		\bitbox{4}{Offset} &
+		\bitbox{3}{} &
+		\bitbox{9}{Flags} &
+		\bitbox{16}{Window Size} \\
+		\bitbox{16}{Checksum} &
+		\bitbox{16}{Urgent Pointer} \\
+	\end{bytefield}
+	\caption{Cabecera TCP}
+\end{figure}
+
+
+
 \newpage
 \nocite{*}
 \printbibliography
