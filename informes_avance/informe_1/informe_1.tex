@@ -106,6 +106,22 @@ Actualmente la comunidad de software libre mantiene tres frameworks importantes 
 	\par Flink únicamente soporta los lenguajes de programación Java y Scala. Esto debe ser así dado que implementa su propio espacio de memoria dentro de una máquina virtual Java, y debe ejecutar lenguajes compatibles.	
 \end{itemize}
 
+\begin{figure}[htpb]
+	\centering
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		& Spark Streaming & Storm & Flink \\
+		\hline
+		Procesamiento & \textit{micro-batching} & Tiempo real & Tiempo real \\
+		Latencia & Alta & Baja & Baja \\
+		Garantia de proceso & Exactamente una & Una o más & Exactamente una \\
+		Lenguaje API & Python, Scala, Java & Multilenguaje & Scala, Java \\
+		Procesamiento distribuido & Si & Si & Si \\
+		\hline
+	\end{tabular}
+	\caption*{Resumen de las tecnologías analizadas}
+\end{figure}
+
 Dadas los \textit{framework} analizados, la selección adecuada para el desarrollo del proyecto es Apache Flink. En cualquier sistema de seguridad de información son necesarias tolerancia a fallos y alto desempeño.\par
 Apache Storm ofrece alto desempeño, pero por su diseño asegura que las \textit{keys} serán procesadas al menos una vez, sin dar garantías de repeticiones en las tuplas. Por otro lado, Spark Streaming no es adecuado para la aplicación que se quiere desarrollar pues tiene bajo desempeño debido al uso de \textit{micro-batching}.
 
