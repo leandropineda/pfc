@@ -3,6 +3,7 @@
 \usepackage[spanish]{babel}
 \usepackage[style=ieee,backend=bibtex]{biblatex}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{pgfplots}
 \usepackage{lineno}
 %\usepackage{showframe}
@@ -11,7 +12,8 @@
 \usepackage{bytefield}
 \usepackage{amsmath}
 \usepackage{csquotes}
-\usepackage{lscape} 
+\usepackage{svg}
+\usepackage{lscape}
 
 
 \bibliography{informe_2}
@@ -101,14 +103,77 @@ Un problema relacionado a los anteriores consiste en estimar la frecuencia de lo
 
 Podemos encontrar los \textit{heavy hitters} resolviendo el problema de los elementos frecuentes. Los \textit{heavy changers} pueden ser identificados realizando estimaciones de frecuencia de los diferentes elementos para ventanas de tiempo adyacentes. Dada la naturaleza del problema es necesario implementar soluciones eficientes en el costo de cómputo como en costo de memoria.
 
-\subsection{Métodos para determinar elementos frecuentes}
-A continuación se describirán dos tipos de técnicas para encontrar elementos frecuentes: estas son las técnicas basadas en conteo y las basadas en sketchs.
+\section{Métodos para determinar elementos frecuentes}
 
-\subsubsection{Técnicas basadas en conteo}
+\subsection{Técnicas basadas en sketches}
+
+La forma clásica de procesar grandes volúmenes de datos y obtener información relevante asume que los datos están almacenados en algún soporte. Sin embargo, para ciertas aplicaciones este enfoque no es viable. Esta restricción es la que más importancia tuvo en relación al nacimiento de los métodos de \textit{data streaming} e impulso el desarrollo de algoritmos livianos sumamente eficientes (sublineales en el uso de memoria), y estructura de datos probabilistas que pueden usarse para responder ciertas preguntas sobre los datos, de manera precisa y con una probabilidad razonablemente alta. Es decir, en lugar de almacenar la totalidad de los datos, se utiliza una representación comprimida (con cierta pérdida) de los mismos.
+
+Los \textit{sketch} son estructuras de datos que pueden ser pensadas como proyecciones lineales de los datos de entrada. Si representamos las entradas como vectores, estos pueden ser multiplicados por una \textit{matriz sketch}. El \textit{vector sketch} resultado contiene la  información suficiente para responder de forma aproximada ciertas preguntas sobre los datos. Por ejemplo, si codificamos los elementos del \textit{stream} de datos como vectores cuya $i$-ésima entrada es su frecuencia $f_i$, el \textit{sketch} es el producto de este vector y una matriz\footnote{Existen diferentes formas de definir la \textit{matriz sketch}, cada una con aplicaciones particulares. Para conteo de eventos se usan familias de funciones de \textit{hash} con ciertas propiedades para definir la proyección lineal.}.
+
+Los algoritmos basados en \textit{sketches} resuelven el problema de estimación de frecuencia, pero necesitan información adicional para resolver el problema de los elementos frecuentes. Por esto, se suele aumentar la estructura de datos de los \textit{sketch} con algún método de conteo para encontrar elementos frecuentes de manera eficiente (ver \ref{tecnicas_conteo}).
+
+\
+
+Antes de describir los algoritmos basados en \textit{sketches} es conveniente introducir los filtros \textit{Bloom} que son una versión simplificada de los primeros, de forma de ganar intuición acerca del funcionamientos de estas estructuras de datos probabilistas.
+
+\subsection*{Filtros Bloom}
+
+El término \textit{filtro Bloom} refiere a una estructura de datos compacta que se usa para representar conjuntos, pero que puede reportar falsos positivos cuando se consulta por la existencia de cierto elemento al conjunto\cite{Putze:2010:CHS:1498698.1594230}. La ventana principal de esta estructura de datos sobre las tradicionales es la eficiencia en el uso de memoria.
+
+Para representar un conjunto de a lo sumo $n$ elementos, un \textit{filtro Bloom} clásico hace uso de un vector de $m$ bits. Al comienzo todos los bits están en $0$. Para insertar un elemento $e$ en el filtro, $k$ bits son actualizados en base a la evaluación de $k$ funciones de hash independientes $h_1(e)$, $h_2(e)$, \dots, $h_k(e)$. Para consultar si un elemento es parte del conjunto se deben calcular las $k$ funciones de hash. Si todos los bits que indican las funciones de hash están en $1$ es probable que el elemento sea parte del conjunto, de lo contrario es seguro que el elemento no forma parte del conjunto. Sea $c=m/n$, la elección óptima para $k$ está dada por $k=int(\ln 2 \ c) = int(\ln 2 \ m/n)$ y la probabilidad de obtener un falso positivo (en promedio) está dada por $f_{std} (m,n,k) \approx (1-e^{-kn/m})^k$\cite{Bloom:1970:STH:362686.362692}. Por ejemplo, para un universo de $n=65536$ elementos y usando $c=4$ bits por elemento tenemos que $f_{std}=0.0174$.
+
+\begin{figure}[htbp]
+	\centering
+	\includesvg[scale=0.5]{graph/bloom.svg}
+	\caption{Filtro Bloom}
+
+	\medskip
+	\small
+
+	\parbox{13.1cm}{La imagen muestra un filtro de Bloom luego que los elementos $e_1$ y $e_2$ fueron insertados. El elemento $e_3$ no se encuentra en el conjunto dado que al menos uno de los bits a los que apuntan las funciones de hash es $0$. La pertenencia de un elemento $e'$ al conjunto puede ser reportada erróneamente si las $k$ funciones de hash $h_i(e')$ apuntan a bits del filtro con valor $1$.}
+
+\end{figure}
+
+\subsection*{CountMin Sketch}
+
+Los \textit{sketches} son menos conocidos que los filtros Bloom pero comparten ciertas similitudes. Son estructuras de datos que permiten sumarizar un \textit{stream} de datos y pueden utilizarse para resolver el problema de los elementos frecuentes. Esto puede ser llevado a cabo usando menos espacio del que se utilizaría almacenando un contador por elemento, pero permitiendo que los contadores tengan cierto error en algunas ocasiones.
+
+Sea $\mathbf{a}$ un vector de dimensión $n$ cuyo estado en el tiempo $t$ es $\mathbf{a}(t)=[a_1(t), a_2(t), \dots, a_n(t)]$. Inicialmente $\mathbf{a}$ es el vector $\mathbf{0}$, es decir $a_i(0)=0 \ \forall i$. Las actualizaciones a los elementos de $\mathbf{a}$ se representan mediante un \textit{stream} de tuplas. De forma general, la tupla $(i_t, c_t)$ representa el $t$-ésimo elemento procesado:\footnote{Para conteo de elementos $c_t=1$.}
+
+\begin{gather*}
+	a_{i_t}(t)=a_{i_t}(t-1) + c_t\\
+	a_{i_{t'}}(t)=a_{i_{t'}}(t-1) \ \forall t' \neq t 
+\end{gather*}
+
+El \textit{sketch} COUNTMINT\cite{Cormode:2005:IDS:1073713.1073718} se utiliza para sumarizar \textit{streams} de datos. Consiste en un arreglo de $d \times w$ contadores y $d$ funciones de hash independientes $h_j$ con $1<j<d$ que mapean un elemento $i$ a un entero $z \in \{0, 1, \dots w-1\}$. Por cada elemento procesado se calcula la posición del contador en el arreglo se mediante la tupla $(j,h_j(i))$ y actualizan $d$ contadores (uno por cada fila) incrementando su contador en $1$.
+
+\begin{figure}[htbp]
+	\centering
+	\includesvg[scale=0.5]{graph/cm.svg}
+	\caption{CountMin Sketch}
+	
+	\medskip
+	\small
+	
+	\parbox{13.1cm}{}
+	
+\end{figure}
+
+
+Podemos estimar la frecuencia de ocurrencia $a_i$ de un elemento $i$ usando el \textit{sketch} descrito anteriormente mediante la fórmula $\hat{f_i} = min_{1 \leq j \leq d}\{C[j,h_j(i)]\}$. Se puede demostrar que $a_i \leq \hat{f_i}$ y que $\hat{f_i} \leq a_i + \varepsilon ||\mathbf{a}||_1$ con probabilidad mayor o igual a $1-\delta$. Los parámetros $\varepsilon$ y $\delta$ definen las dimensiones del \textit{sketch} como $w=\lceil \frac{e}{\varepsilon}\rceil$ y $d=\lceil \ln \frac{1}{\delta} \rceil$.
+
+\paragraph{Ejemplo} Para procesar 10 millones de eventos y producir estimaciones con un error hacia arriba menor o igual a $100$ con una probabilidad de al menos $0.99$ necesitamos $\varepsilon ||\mathbf{a}||_1=100$ y $\delta = 0.01$. En términos las dimensiones del \textit{sketch} $w=271829$ y $d=5$.
+
+Finalmente, COUNTMIN es $O({1 \over \epsilon} \log {1 \over \delta})$ en términos de memoria y para realizar operaciones de actualización es $O(\log {1 \over \delta})$
+
+
+
+\subsection{Técnicas basadas en conteo}\label{tecnicas_conteo}
 
 Los algoritmos basados en técnicas de conteo mantienen contadores para un subconjunto del universo de elementos posibles $T$ (ver \ref{modelado}). A continuación se describen algunos algoritmos de conteo existentes y sus características.
 
-\subsubsection*{Majority}
+\subsection*{Majority}
 El problema de los elementos frecuentes fue estudiado por primera vez en la década del 80, y fue enunciado de esta manera:
 \begin{displayquote}
 	Supongamos una lista de $n$ números, representando los "votos" de $n$ procesadores en el resultado de cierto cálculo. Queremos determinar si hay un voto mayoritario y cual es ese voto.\cite{GUIBAS1981208}
@@ -116,21 +181,13 @@ El problema de los elementos frecuentes fue estudiado por primera vez en la déc
 
 Para solucionar el problema, los autores desarrollaron un algoritmo de una pasada llamado MAJORITY. El pseudocódigo de MAJORITY se describe a continuación: se almacena el primer elemento y se inicializa un contador en $1$. Por cada elemento subsecuente, si es el mismo que el elemento almacenado, se incrementa el contador en $1$. Si el elemento es diferente y el contador es $0$, entonces se reemplaza el elemento y se incrementa el contador en $1$. De lo contrario, se decrementa el contador. Luego de procesar todos los elementos, el algoritmo garantiza que si hay un voto mayoritario, entonces este debe ser el almacenado por el algoritmo. En el peor caso, el algoritmo realiza $2n$ comparaciones. Usando un argumento de paridad podemos concluir que el resultado del algoritmo es el correcto: si por cada elemento que no es el mayoritario tomamos uno de los mayoritarios, al final van a quedar solo elementos del conjunto mayoritario.
 
-\subsubsection*{Frequent}
+\subsection*{Frequent}
 
 Una generalización del algoritmo MAJORITY es desarrolada en \cite{Karp:2003:SAF:762471.762473} la cual permite encontrar todos los elementos en el stream de datos que exceda $1/k$-ésimo del total de los elementos procesados. En lugar de guardar solo un elemento y un contador, FREQUENT almacena $k-1$ tuplas elemento-contador. Cada nuevo elemento es comparado contra todos los elementos almacenados por el algoritmo, y se incrementa el contador correspondiente si corresponde. Sino, si algún contador está en cero, se reemplaza el elemento y se inicializa el contador en $1$. Si los contadores de los $k-1$ elementos están siendo utilizados, entonces todos son decrementados en $1$. Este algoritmo no es exacto: al terminar de procesar el \textit{stream} de datos, el contador asociado con cada elemento esta a lo sumo $\epsilon n$ unidades por debajo del valor real si $k = 1/ \epsilon$.\cite{Kranakis03boundsfor}
 
 FREQUENT puede resolver el problema de estimación de frecuencia desarrollado en la sección \ref{elementos_frecuentes} con $\epsilon = 1/k$. En el peor caso, el algoritmo es $O(k)$ en memoria y realiza $nk$ comparaciones y $nk$ asignaciones a variables.
 
-\subsubsection{Técnicas basadas en sketches}
 
-Los \textit{sketch} son estructuras de datos que pueden ser pensadas como proyecciones lineales de los datos de entrada. Si pensamos los elementos del \textit{stream} de datos como vectores cuya $i$-ésima entrada es $f_i$, el \textit{sketch} es el producto de este vector y una matriz. Los algoritmos usan una función de \textit{hash} con ciertas propiedades para definir la proyección lineal.
-
-Los algoritmos de basados en \textit{sketches} resuelven el problema de estimación de frecuencia, pero necesitan información adicional para resolver el problema de los elementos frecuentes. Por esto, se suele aumentar la estructura de datos de los \textit{sketch} con algún método de conteo para encontrar elementos frecuentes de manera eficiente.
-
-\subsubsection*{CountMin Sketch}
-
-El algoritmo COUNTMINT\cite{Cormode:2005:IDS:1073713.1073718} consiste en un arreglo de contadores de $d \times w$, y $d$ funciones de hash independientes de a pares $h_j$ (una por cada fila del arreglo) con $1 \leq j \leq d$, que mapean elementos a $\{0, 1 \dots, w-1 \}$. Por cada nuevo elemento que es procesado, se actualizan $d$ contadores en el arreglo, incrementando su contador en $1$. Para estimar la frecuencia del elemento $i$, tenemos que $\hat{f_i} = min_{1 \leq j \leq d} C[j,h_j(i)]$; el error de esta estimación está acotado por desigualdad de Markov: cada contador $j$ sobre-estima $f_i$ a lo sumo en $n/w$, y reduce la probabilidad de error exponencialmente en $d$. Para $d=\log {1 \over \delta}$ y $w = O({1 \over \epsilon})$, el error en la estimación de $f_i$ es de a lo sumo $\epsilon n$ con probabilidad no menor a $1-\delta$. Finalmente, COUNTMIN es $O({1 \over \epsilon} \log {1 \over \delta})$ en términos de memoria y para realizar operaciones de actualización es $O(\log {1 \over \delta})$
 
 \
 
