@@ -1,0 +1,85 @@
+%% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'cm_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{686.37867737bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.53614008)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{cm_svg-tex.pdf}}%
+    \put(0.98342216,0.28204027){\makebox(0,0)[lb]{\smash{d}}}%
+    \put(0.47395485,0.5289885){\makebox(0,0)[lb]{\smash{w}}}%
+    \put(0.6392244,0.37355316){\makebox(0,0)[lb]{\smash{$h_1$}}}%
+    \put(0.13658641,0.29160132){\makebox(0,0)[lb]{\smash{$h_2$}}}%
+    \put(0.87415303,0.20964947){\makebox(0,0)[lb]{\smash{$h_3$}}}%
+    \put(0.51902836,0.03481886){\makebox(0,0)[lb]{\smash{$h_d$}}}%
+    \put(0.61272664,0.43064628){\makebox(0,0)[lb]{\smash{\tiny $(1,h_1(e))$}}}%
+    \put(0.08823482,0.34323098){\makebox(0,0)[lb]{\smash{\tiny $(2,h_2(e))$}}}%
+    \put(0.87497255,0.25581568){\makebox(0,0)[lb]{\smash{\tiny $(3,h_3(e))$}}}%
+    \put(0.43707651,0.08098507){\makebox(0,0)[lb]{\smash{\tiny $(d,h_d(e))$}}}%
+    \put(0.62310721,0.4596026){\makebox(0,0)[lb]{\smash{\tiny C=C+1}}}%
+    \put(0.09861539,0.3721873){\makebox(0,0)[lb]{\smash{\tiny C=C+1}}}%
+    \put(0.88535311,0.284772){\makebox(0,0)[lb]{\smash{\tiny C=C+1}}}%
+    \put(0.4482766,0.10994139){\makebox(0,0)[lb]{\smash{\tiny C=C+1}}}%
+    \put(0.87415303,0.0023113){\makebox(0,0)[lb]{\smash{$e$}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{cm_svg-tex.pdf}}%
+    \put(0.79688414,0.28547444){\makebox(0,0)[lb]{\smash{\huge\dots}}}%
+    \put(0.12878148,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.04136617,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.30361208,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.21619678,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.47844266,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.39102739,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.65327326,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.56585796,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.74068856,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.91551917,0.18479074){\makebox(0,0)[lb]{\smash{\huge \vdots}}}%
+    \put(0.79688414,0.37288974){\makebox(0,0)[lb]{\smash{\huge\dots}}}%
+    \put(0.79688414,0.11064383){\makebox(0,0)[lb]{\smash{\huge\dots}}}%
+    \put(0.79688414,0.46030504){\makebox(0,0)[lb]{\smash{\huge\dots}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{cm_svg-tex.pdf}}%
+  \end{picture}%
+\endgroup%
