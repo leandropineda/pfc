@@ -61,7 +61,7 @@
 \section{Introducción}
 Determinar anomalías en una serie temporal de eventos permite detectar fenómenos que pueden ser de interés para ciertas aplicaciones. Por ejemplo, monitorear la demanda de recursos en un servicio de red, o determinar que anuncio publicitario es la más visto en un sitio web.
 
-Es interesante observar anomalías en el comportamiento de ciertos componentes en distintos puntos de una red de datos. Por ejemplo, pueden analizarse los flujos de datos en los puntos de acceso de la red. En la capa de transporte, el protocolo TCP (que provee conexión host a host sobre IP) provee información suficiente para identificar estos patrones. Además, los diferentes servicios que funcionan en una red, como servidores web, producen grandes cantidades de logs que pueden ser analizado en busca de patrones anómalos.
+Es interesante observar anomalías en el comportamiento de ciertos componentes en distintos puntos de una red de datos. Por ejemplo, pueden analizarse los flujos de datos en los puntos de acceso de la red. En la capa de transporte, el protocolo TCP (que provee conexión host a host sobre IP) provee información suficiente para identificar estos patrones. Además, los diferentes servicios que funcionan en una red, como servidores web, producen grandes cantidades de registros de auditoría (o logs) que pueden ser analizado en busca de patrones anómalos.
 Para llevar a cabo el análisis en tiempo real de eventos (tanto los segmentos TCP que son transportados como los logs de los distintos servicios o eventos generados por cierta aplicación), utilizaremos el modelo de \textit{data streaming}: este se basa esencialmente en algoritmos que procesan una única vez los datos, dado que transferirlos y almacenarlos no es posible en la práctica, y permiten determinar cuales son los elementos más comunes en el stream de datos, así como algunos estadísticos (como la media, mediana, histograma), entre otros.
 
 \section{El modelo de data streaming}
@@ -186,7 +186,7 @@ En la figura \ref{fig:RedisManagerGetValue} se muestra el diagrama de secuencia 
 	
 \end{figure}
 
-Como las consultas a la base de datos usualmente son costosas y generan delays, se colocó una \textit{cache} en el acceso a la base de datos. Con este diseño se busca solucionar los siguientes problemas:
+Como las consultas a la base de datos usualmente son costosas y generan retrasos (es decir, introducen latencia), se colocó una \textit{cache} en el acceso a la base de datos. Con este diseño se busca solucionar los siguientes problemas:
 \begin{itemize}
 	\item Disminuir la carga de procesamiento del \textit{microservicio}: es mucho más eficiente operar con valores enteros que con cadenas de caracteres.
 	\item Los algoritmos de \textit{streaming} están basados en funciones de \textit{hashing} y por lo tanto hacen uso intensivo de aritmética de enteros.
@@ -212,7 +212,7 @@ Para realizar la detección de \textit{heavy keys} la clase \textit{HeavyKeyDete
 	\label{fig:SecDiagDetectionSchedulerDetect}
 \end{figure}
 
-La implementación descrita es provista en forma de imagen Docker, y todas los componentes necesarios para su funcionamiento así como su configuración están definidas en un archivo \textit{docker-compose}. El \textit{webservice} provee además los recursos REST para consultar el estado del servicio y sus dependencias.
+La implementación descrita esta empaquetada usando contenedores Docker\footnote{https://www.docker.com/}, y todas los componentes necesarios para su funcionamiento así como su configuración están definidas en un archivo \textit{docker-compose}. Estos contenedores permiten empaquetar software en unidades estandarizadas agilizando el desarrollo y puesta en producción de las aplicaciones. El \textit{webservice} provee además los recursos REST para consultar el estado del servicio y sus dependencias.
 
 \section{Pruebas realizadas}
 
