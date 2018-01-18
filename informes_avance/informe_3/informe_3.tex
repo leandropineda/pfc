@@ -1,0 +1,112 @@
+\documentclass[a4paper,10pt, oneside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\usepackage{lineno}
+%\usepackage{showframe}
+\usepackage[top=1in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
+\usepackage{caption}
+\usepackage{bytefield}
+\usepackage{amsmath}
+\usepackage{csquotes}
+\usepackage{svg}
+\usepackage{lscape}
+\usepackage{multicol}
+\usepackage{subfig}
+\usepackage{hyperref}
+
+
+
+\usepackage{listings,xcolor}
+\lstset{
+	string=[s]{"}{"},
+	stringstyle=\color{blue},
+	comment=[l]{:},
+	commentstyle=\color{black},
+}
+
+
+\bibliography{informe_3}
+
+	
+\begin{document}
+	
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.25\textwidth]{../../Universidad_del_Litoral}\par\vspace{1cm}
+	{\scshape\LARGE Universidad Nacional del Litoral \par}
+	\vspace{1cm}
+	{\scshape\Large Proyecto Final de Carrera\par}
+	\vspace{1.5cm}
+	{\huge\bfseries Diseño de un sistema de detección de anomalías en redes de computadoras.\par}
+	\vspace{4cm}
+	{\huge\bfseries Informe de avance 3\par}
+	\vfill
+	
+	{\Large \itshape Pineda Leandro\par}
+	
+	
+	% Bottom of the page
+	\large Córdoba\par
+	{\large \today\par}	
+\end{titlepage}
+
+\modulolinenumbers[5]
+\linenumbers
+
+\section{Introducción}
+
+
+\section{Comunicación entre componentes}
+La arquitectura de un sistema es la descripción de su estructura en términos de componentes específicos y sus se interrelaciones. De esta manera, podemos asegurarnos que dicha estructura satisface las demandas actuales y puede ser adaptada para satisfacer demandas futuras.
+Cuando se diseñan sistemas distribuidos, es decir, aquellos compuestos por varios componentes que no comporten el mismo espacio de memoria, es necesario considerar lo siguiente: 
+
+\begin{itemize}
+	\item ¿Cuales son las entidades que se comunican entre si?
+	\item ¿Cómo van a comunicarse, o para ser mas específicos, que paradigma de comunicación va a usarse?
+\end{itemize}
+
+Estas preguntas son centrales para entender los sistemas distribuidos; qué se está comunicando y cómo esas entidades se comunican entre si, definen una gran cantidad de variables a ser consideradas por quienes construyen estos sistemas.
+
+Las entidades que se comunican en un sistema distribuido son típicamente procesos, lo que nos permite entender a los sistemas distribuidos como procesos que se relacionan mediante los paradigmas de comunicación \textit{entre procesos} apropiados. Podemos nombrar tres paradigmas de comunicación:
+\begin{itemize}
+	\item Comunicación \textit{entre procesos}.
+	\item Invocación remota.
+	\item Comunicación indirecta.
+\end{itemize}
+
+La comunicación \textit{entre procesos} refiere al soporte de bajo nivel para comunicarse entre procesos en sistemas distribuidos, incluyendo primitivas para manejo de mensajes, acceso directo a las API provistas por protocolos de Internet (esto es, usando Sockets), y soporte para comunicación \textit{multicast}.
+
+La invocación remota representa el paradigma de comunicación más común en sistemas distribuidos. El intercambio de mensajes entre las entidades comunicantes es bidireccional, de forma que operaciones remotas, procedimientos y métodos, pueden ser invocados como se define a continuación:
+\begin{itemize}
+	\item Protocolos \textit{request-reply}: estos protocolos involucran el intercambio de mensajes desde el cliente al servidor y luego del servidor al cliente, donde el primer mensaje representa la operación que será ejecutada en el servidor (con los parámetros necesarios) y el segundo contiene cualquier resultado de dicha operación. Este paradigma es mas bien primitivo, y es utilizado generalmente en sistemas embebidos donde la \textit{performance} es de suma importancia.
+	\item \textit{Remote procedure calls} (RPC) o llamadas a procedimientos remotos: este concepto, atribuido inicialmente a Birrel and Nelson [1984], representó un gran cambio en los paradigmas de computación distribuida. En RPC, los procedimientos de los procesos en computadoras remotas pueden ser invocados como si fuesen invocados desde el espacio local de memoria. De esta manera, el sistema abstrae aspectos acerca de la distribución, como la codificación de los parámetros y resultados, el paso de mensajes, entre otros. Este esquema soporta comunicación cliente-servidor pero depende de servidores que ofrezcan un conjunto de operaciones a través de una interfaz de servicio para que los clientes puedan llamar esas operaciones como si estuviesen disponibles localmente.
+	\item \textit{Remote method invocation} (RMI) o invocación remota de métodos: RMI es similar a RPC pero utiliza objetos distribuidos. Bajo este paradigma, un objeto cliente puede invocar métodos de un objeto remoto. De la misma forma que con RPC, ciertos detalles de como se implementa la comunicación quedan ocultos al usuario. Algunas implementaciones de RMI pueden incluir, además, soporte para darle a los objetos identidad y la habilidad de usar esos identificadores de objetos en llamadas remotas.
+\end{itemize}
+
+Las técnicas discutidas hasta aquí tienen una cosa en común: la comunicación representa una relación en ambos sentidos entre el emisor y el receptor, con los emisores enviando explícitamente mensajes/invocaciones a los receptores asociados. Los receptores, generalmente deben saber sobre la identidad de los emisores y, en la mayoría de los casos, ambas partes deben existir al mismo tiempo para que la comunicación sea exitosa. En contraste, surgieron numerosas técnicas donde la comunicación es indirecta, a través de una tercera entidad, permitiendo un gran grado de desacople entre emisores y receptores. En particular:
+\begin{itemize}
+\item Los emisores no necesitan saber a quien le están enviando datos.
+\item Emisores y receptores no necesitan existir al mismo tiempo.
+\end{itemize} 
+
+Las técnicas más usadas para comunicación indirecta incluyen:
+
+\begin{itemize}
+\item Sistemas \textit{publish-suscribe}: en estos sistemas, un gran número de productores (o \textit{publishers}) distribuyen elementos de información de interés (eventos) a un número similar de consumidores (o \textit{suscribers}). Usar cualquier de los paradigmas discutidos anteriormente hubiera sido complejo e ineficiente y por lo tanto los sistemas \textit{publish-suscribe} (a veces llamados sistemas basados en eventos) surgieron para cubrir esta demanda\cite{Muhl:2006:DES:1162246}. Todos los sistemas \textit{publish-suscribe} comparten la característica crucial de proveer un servicio intermedio que asegura que la información generada por los productores es enrutada eficientemente a los consumidores que deseen dicha información.
+
+\item Colas de mensajes: de la misma forma que los sistemas \textit{publish-suscribe} proveen un estilo de comunicación uno a muchos, las colas de mensajes ofrecen un servicio punto a punto mediante el cual los procesos de los productores pueden enviar mensajes a una cola especifica y los procesos consumidores pueden recibir los mensajes o ser notificados de la llegada de nuevos mensajes a la cola. Las colas, entonces, ofrecen una indirección entre los procesos productores y consumidores.
+\end{itemize}
+
+
+
+
+\newpage
+\nocite{*}
+\printbibliography
+\end{document}
+
