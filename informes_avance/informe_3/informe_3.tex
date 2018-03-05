@@ -61,7 +61,8 @@
 \linenumbers
 
 \section{Introducción}
-
+En este informe se mostrarán las mejoras realizadas al segundo incremento del proyecto. En primer lugar se discutirán las diferentes formas de comunicación entre los componentes de un sistema y las ventajas de la utilización de comunicación indirecta en el mundo de los \textit{webservices}. Luego se comparará el desempeño del sistema provisto en el segundo incremento con la del tercer incremento. Además, se describirán los cambios realizados en la arquitectura y su justificación, así como la información provista por el servicio. Finalmente, se discutirá una primera implementación de la visualización o interfaz de usuario del servicio.
+\newpage
 
 \section{Comunicación entre componentes}
 La arquitectura de un sistema es la descripción de su estructura en términos de componentes específicos y sus interrelaciones. Mediante esta modularización, podemos asegurarnos que dicha estructura satisface las demandas actuales (es decir, resuelve el problema para el cual fue construido) y puede ser adaptada para satisfacer demandas futuras.
@@ -185,10 +186,10 @@ Las pruebas realizadas son similares a las presentadas anteriormente. Se generar
 	\caption{Eventos procesados a lo largo del experimento (Message Queue).} \label{fig:MQ}
 \end{figure}
 
-Con la implementación actual, podemos observar que la performance del sistema es 27 veces mejor que la implementación del segundo incremento. Aunque la primera implica el despliegue de un servicio de cola de mensajes y escribir clientes que publiquen mensajes en la misma, la ganancia en prestaciones es lo suficientemente buena como para que el beneficio justifique los costos de desarrollo.
+Con la implementación actual, podemos observar que la performance del sistema es 27 veces mejor que la implementación del segundo incremento. Aunque esto implica el despliegue de un servicio de cola de mensajes y escribir clientes que publiquen mensajes en la misma, la ganancia en prestaciones es lo suficientemente buena como para que el beneficio justifique los costos de desarrollo.
 
 \section{Cambios en la arquitectura}
-Los cambios en el código del micro servicios que fueron realizados en este incremente, pueden agruparse en 3 categorías:
+Los cambios en el código del micro servicios que fueron realizados en este incremente, pueden agruparse en 3 categorías, según el objetivo que cumplen:
 \begin{itemize}
 	\item Incrementar la performance del sistema.
 	\item Mejorar la legibilidad del código (refactoring).
@@ -196,17 +197,74 @@ Los cambios en el código del micro servicios que fueron realizados en este incr
 \end{itemize}
 
 \subsection{Incremento en la performance del sistema}
-Para esta mejora, las modificaciones en el micro servicio no implicaron cambios muy grandes a el código del segundo incremento dado que la interfaz para registrar eventos estaban bien definidas. Sin embargo, fue necesario agregar la lógica para integrar una cola de mensajes. Como puede verse en el caso de uso descrito en el segundo informe (ver \ref{fig:SecDiagResourceAddEvent}), los eventos nuevos son manejados por el componente \textit{SketchManager}.
+Para esta mejora, las modificaciones en el micro servicio no implicaron cambios estructurales muy grandes al código del segundo incremento dado que la interfaz para registrar eventos estaba bien definida. Sin embargo, fue necesario agregar a la arquitectura del sistema una cola de mensajes, es decir, un nuevo servicio, y la lógica para integrar el mismo. 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.45\textwidth]{../informe_2/graph/SecDiag-resourceAddEvent.pdf}
-	\caption{Diagrama de secuencia para nuevos eventos (segundo incremento)}
-	\label{fig:SecDiagResourceAddEvent}
+	\includegraphics[width=0.45\textwidth]{./graph/SecDiag-resourceAddEventMosquitto.pdf}
+	\caption{Diagrama de secuencia para nuevos eventos (tercer incremento)}
+	\label{fig:SecDiagResourceAddEvent-Mosquitto}
 \end{figure}
 
-En lugar de ser enviados directamente por un actor, el componente está suscripto a un canal particular de la cola de mensajes, escuchando nuevos eventos publicados en el mismo. Mediante un \textit{callback}, cada vez que un evento nuevo es publicado, el componente es notificado y obtiene el mensaje del canal. Aquí, podemos clasificar el mecanismo de lectura de mensajes como \textit{push}, es decir, un actor empuja eventos al servicio, y \textit{pull}, donde el servicio lee u obtiene los eventos de un origen de datos dado (en este caso, una cola de mensajes).
+En la implementación anterior, los mensajes eran registrados directamente por un actor externo, mientras que ahora el sistema se suscribe a un canal particular de la cola de mensajes, escuchando nuevos eventos publicados en el mismo. Mediante una función de \textit{callback} se especifica qué acción debe realizarse cada vez que el tópico notifica la llegada de un nuevo mensaje: este es agregado a un \textit{sketch} mediante  \textit{sketchManager} y procesado de igual forma que en la implementación del segundo incremento.
+La figura \ref{fig:SecDiagResourceAddEvent-Mosquitto} muestra cómo el objeto \textit{brokerClient} implementa la lógica descrita anteriormente. Cuando es instanciado, el cliente debe conectarse a la cola de mensajes,  suscribirse a un tópico y configurar el \textit{callback}. También encapsula la lógica necesaria para manejar la pérdida o interrupción de la conexión al servicio.
 
+\subsection{Reestructuración de código}
+Otro aspecto importante a mejorar es la calidad del código del sistema. Esto no solo ayuda a mejorar ciertos aspectos funcionales como la eficiencia, sino que permite entender de manera sencilla los distintos módulos del sistema y la responsabilidad de cada uno de ellos. Así, el código es mucho más simple de interpretar, mantener y modificar.
+El diagrama \ref{fig:system_components} muestra los diferentes componentes del sistema y la relación que existe entre ellos.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{./graph/system_components.pdf}
+	\caption{Componentes del sistema y su interacción}
+	\label{fig:system_components}
+\end{figure}
+
+Podemos describir la responsabilidad de cada módulo para comprender cómo funciona el servicio. El componente \textit{RedisManager} encapsula los métodos para conectar, consulta y almacenar datos en la base de datos clave-valor. Expone dos métodos para obtener los valores enteros asociados a un evento, y los eventos asociados a un conjunto de valores enteros. \textit{BrokerClient} envía los eventos que son publicados en un tópico a \textit{SketchManager}. Este mantiene un objeto \textit{Sketch} activo en todo momento y actualiza su estado con cada nuevo evento procesado. Además, mediante \textit{RedisManager}, asigna un valor entero a cada evento registrado y persiste el par clave-valor en la base de datos.
+
+Una vez transcurrida una ventana de tiempo o época, deben ejecutarse los métodos necesarios para detectar los eventos anómalos que están siendo procesados por el sistema. El componente \textit{DetectionScheduler} es el encargado de orquestar los diferentes pasos del algoritmo de detección implementado. Primero, indica al componente \textit{SketchManager} que una época a finalizado: este genera un nuevo objeto \textit{sketch} y almacena el objeto \textit{sketch} anteriormente activo en la cola \textit{SketchHistoryQueue}. Al mismo tiempo, el componente \textit{HeavyKeyDetector} es notificado del fin de la época: este toma los dos últimos \textit{sketch} disponibles en \textit{SketchHistoryQueue} y ejecuta los algoritmos de detección de eventos anómalos. Como la representación de los eventos en esta instancia son números enteros, deben recuperarse de la base de datos los eventos asociados a estos. Finalmente, asocia los eventos detectados con la época de detección correspondiente, que es obtenida mediante \textit{SketchManager}.
+Por otro lado, \textit{HeavyKeyDetector} guarda los eventos detectados en la cola \textit{HeavyKeysHistoryQueue} para ser consultados convenientemente. Finalmente, se expone mediante una API REST los resultados de la detección junto con información del estado general del sistema.
+
+\subsection{Exposición de los resultados de la detección}
+A medida que los eventos son procesados el algoritmo de detección de eventos anómalos genera resultados en intervalos regulares de tiempo. Estos deben ser expuestos de manera conveniente para generar un visualización apropiada mediante una interfaz web. De esta forma, el sistema o \textit{backend} queda totalmente desacoplado de la visualización de la información o \textit{frontend}. Esto permite cambiar y mejorar los métodos de detección sin afectar su visualización, permitiendo de la misma manera cambiar la forma en que los datos son presentados sin necesidad de modificar el sistema de detección.
+La información provista usando una REST API se enumera a continuación:
+\begin{itemize}
+	\item Estado general del sistema: valores de configuración, época actual de detección (número entero) y cantidad total de eventos procesados por el sistema.
+	\item Información de cada época:  cantidad de elementos procesados y fecha de comienzo.
+	\item Eventos detectados: fecha de finalización de cada época, cantidad de eventos anómalos detectados por época y los eventos detectados. Estos eventos son una lista de cadenas de caracteres o \textit{strings} para cáda época de detección.
+\end{itemize}
+
+Así, la interfaz web que será descrita en la siguiente sección, solo debe consumir estos datos y presentarlos de manera conveniente. Si lo pensamos desde el punto de vista de un modelo MVC (Model-View-Controller), el \textit{backend} resuelve el Model y el Controller, y el \textit{frontend} web resuelve la vista.
+
+\section{Interfaz web}
+Con las API correspondiente ofreciendo los resultados de la detección, solo resta implementar una vista de estos datos. Como la visualización de los datos pretende ser simple (emulando un \textit{dashboard}), se optó por implementar una aplicación web de página única, o SPA por \textit{Single-page Applicacion}. La ventaja principal de las SPA es que son dinámicas, lo cual evita refrescar la página para actualizar los datos mostrados, dando así una experiencia de aplicación de escritorio pero permitiendo ser usadas mediante un navegador, sin descargar programas adicionales.
+
+Respecto a las tecnologías disponibles, existen dos estándares:
+\begin{itemize}
+	\item AngularJS: es un framework desarrollado y mantenido por Google Inc. Está escrito en JavaScript y hace uso del patrón de diseño MVC.
+	\item ReactJS: es una librería para construir interfaces de usuario. Desarrollada y mantenida por Facebook, está pensada para diseñar vistas simples para cada estado de una aplicación. La librería es la encargada de actualizar y re-dibujar los componentes que sean necesarios cuando los datos cambian.
+\end{itemize}
+
+Si bien ambas tecnologías son ampliamente usadas y su desarrollo es sumamente activo, ReactJS parece ser la opción más conveniente dado que sus características se ajustan al problema que se intenta resolver, es decir, mostrar los datos provistos por el \textit{web-service} de manera adecuada.
+
+En cuanto a cómo mostrar los datos, la primera aproximación consistió en el uso de una tabla con 5 columnas para fecha de detección, cantidad de \textit{Heavy Hitters}, los \textit{Heavy Hitters} detectados, cantidad de \textit{Heavy Changers} y los \textit{Heavy Changers} detectados. Sin embargo, cómo la cantidad de eventos detectados por fila es variable, sería necesario mostrar más de una dato por celda, lo que la utilización de una tabla parecería no ser la adecuada (se asume que cada celda es atómica, es decir, debe mostrar un único dato).
+
+Otra alternativa mas conveniente dada la naturaleza temporal de los datos, y la cantidad de ocurrencia de eventos, es utilizar un histograma con desplazamiento. Con cada desplazamiento, los datos para la nueva época son agregados. Así, puede observarse cuando ocurren ciertos eventos, y compararlos a simple vista con otros intervalos de tiempo pasados y futuros. En la imagen \ref{fig:ui} puede observase una primera implementación de la inferfaz web.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{./graph/ui.png}
+	\caption{Interfaz web del sistema}
+	\label{fig:ui}
+\end{figure}
+
+En el panel superior pueden observarse los datos generales del sistema: época que está siendo computada, cantidad de eventos totales procesados y la cantidad de \textit{heavy keys} encontradas hasta el momento. El primer histograma muestra cuantos \textit{heavy hitters} ocurrieron en cada época y el segundo muestra cuando \textit{heavy changers} fueron identificados.
+
+\section{Conclusiones}
+En este incremento se realizaron una cantidad considerable de modificaciones. Como es usual en los desarrollos ágiles, primero se parte de una prueba de concepto para mostrar el valor que puede entregar un sistema o algoritmo, y luego se trabaja en mejorar aspectos técnicos para hacer de la misma una idea productizable.
+En particular, podemos observar que las mejoraras en \textit{performance} son más que satisfactorias. Si bien para el presente informe sólo se usaron datos sintéticos y de tráfico de red, el mismo método puede aplicarse en diferentes aplicaciones: e-commerce (determinar en tiempo real artículo es el mas buscado) o análisis de texto en tiempo real (cuales son las palabras más usadas en todo momento).
+Por otro lado, la integración de una \textit{message queue} en el sistema fue fundamental, no solo para incrementar las prestaciones del servicio, sino para permitir escalabilidad: ante grandes volúmenes de eventos enviados al servicio, la carga es soportada por la \textit{message queue}, lo cual evita agregar esta lógica al servicio desarrollado.
+Finalmente, la interfaz web muestra, en una sola vista, toda la actividad detectada por el sistema y permite a usuario observar cual es el estado general de los eventos que está analizando, sin necesidad de interactuar con la interfaz.
 \newpage
 \nocite{*}
 \printbibliography
