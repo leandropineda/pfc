@@ -224,7 +224,7 @@ Para el primer experimento se generaron una serie de eventos consecutivos en el 
 En la figura \ref{fig:prueba1} se observa la distribución de los eventos generados a lo largo del tiempo, para un intervalo de 60 segundos. Cada barra del gráfico representa un intervalo de tiempo de $3$ segundos.
 Los eventos se generan para los intervalos de tiempo definidos de la siguiente manera: en el intervalo $(0,10)$ se generan $1200$ eventos $E1$, en $(10,40)$ se generan $800$ eventos $E2$, en $(33,36)$ se generan $400$ eventos $E3$, en $(40,47)$ se generan $500$ eventos $E4$ y en $(54,58)$ se generan $400$ eventos $E5$. Finalmente se suman $1500$ eventos aleatorios a toda la duración de la simulación. 
 
-\begin{figure}[bh]
+\begin{figure}[ht]
 	\centering
 	\makebox[0pt][c]{%
 		\begin{minipage}{0.75\textwidth}
@@ -291,15 +291,16 @@ Los parámetros con los que el servicio estaba configurado a la hora de realizar
 \subsection{Trafico de red}
 En esta prueba se utilizó un archivo de captura de tráfico de red para emular el comportamiento de los paquetes que atraviesan una interfaz de red. Este dataset, que es usado en la suite \textit{Tcpreplay\footnote{http://tcpreplay.appneta.com/wiki/captures.html}} para probar performance en switches y adaptadores de red, esta diseñado para generar una gran cantidad de flujos usando varios protocoles, manteniendo bajo el tráfico promedio de la red. Contiene 15000 paquetes de red y una duración de 300 segundos.
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=1\textwidth]{graph/smallFlows_conversations.png}
+	\includegraphics[width=.9\textwidth]{graph/smallFlows_conversations.png}
 	\caption{Conversaciones TCP del archivo de captura de tráfico de red}
 	\label{fig:smallFlows_conversation}
 	
 \end{figure}
 
 Analizando los flujos que se muestran en la figura \ref{fig:smallFlows_conversation} se puede observar que la conversación con mayor cantidad de paquetes ocurre entre las direcciones 130.117.72.100:443 y 172.16.255.1:10638. A partir del instante $111.35$ se intercambian $1048$ paquetes en un período de $18.12$ segundos, que son detectados correctamente como \textit{heavy changers}. Los parámetros con los que se configuró el sistema son similares a los usados en el experimento anterior, solo que se aumentaron los umbrales: \textit{heavyHitterThreshold} es $250$ y \textit{heavyChangerThreshold} es $200$.
+
 
 \section{Conclusión y trabajos futuros}
 Para un flujo de eventos representados como cadenas de caracteres el sistema permite identificar en tiempo real aquellos eventos considerados como \textit{heavy keys} (ver \ref{modelado}). Codificando los eventos de esta manera el sistema puede ser integrado en diferentes aplicaciones sin dificultad, dado que expone interfaces sencillas.
@@ -309,7 +310,10 @@ Respecto a la instalación del sistema vemos que no ofrece dificultad alguna dad
 Es posible modificar las propiedades de los parámetros de detección del sistema usando un archivo de configuración según los datos que se quieren procesar. Los umbrales de detección deben ser configurados acorde a la aplicación, pero podría implementarse un mecanismo de ajuste automático.
 
 Finalmente, dado que una REST API no es eficiente para el manejo de muchas peticiones, no se pueden utilizar grande volúmenes de eventos. Para esto, es necesario reemplazar el mecanismo REST por un \textit{message broker} como \textit{Apache ActiveMQ} e implementar el la lógica necesaria para soportar concurrencia en todos los módulos del sistema.
+
+
 \newpage
+
 \nocite{*}
 \printbibliography
 \end{document}
