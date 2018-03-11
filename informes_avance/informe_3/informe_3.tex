@@ -190,7 +190,7 @@ Las pruebas realizadas son similares a las presentadas anteriormente y se realiz
 Con la implementación actual, podemos observar que la performance del sistema es 27 veces mejor que la implementación del segundo incremento. Aunque esto implica el despliegue de un servicio de cola de mensajes y escribir clientes que publiquen mensajes en la misma, la ganancia en prestaciones es lo suficientemente buena como para que el beneficio justifique los costos de desarrollo.
 
 \section{Cambios en la arquitectura}
-Los cambios en el código del micro servicios que fueron realizados en este incremente, pueden agruparse en 3 categorías, según el objetivo que cumplen:
+Los cambios en el código del micro servicios que fueron realizados en este incremento  pueden agruparse en 3 categorías, según el objetivo que cumplen:
 \begin{itemize}
 	\item Incrementar la performance del sistema.
 	\item Mejorar la legibilidad del código (refactoring).
@@ -260,6 +260,10 @@ Otra alternativa mas conveniente dada la naturaleza temporal de los datos, y la 
 \end{figure}
 
 En el panel superior pueden observarse los datos generales del sistema: época que está siendo computada, cantidad de eventos totales procesados y la cantidad de \textit{heavy keys} encontradas hasta el momento. El primer histograma muestra cuantos \textit{heavy hitters} ocurrieron en cada época y el segundo muestra cuando \textit{heavy changers} fueron identificados. Queda pendiente elegir definir es la mejor forma de visualizar las etiquetas de los eventos detectados y mejorar la descripción de los datos en la interfaz.
+
+\section{Instalación}
+El sistema y sus dependencias se implementan usando \textit{docker-compose}\footnote{https://docs.docker.com/compose/}. Esto permite su distribución de manera sencilla y asegura independencia del sistema operativo y servidor donde es ejecutado. Las instrucciones para su instalación, configuración y prueba pueden encontrarse en \hyperref[https://github.com/leandropineda/sketch-service]{https://github.com/leandropineda/sketch-service}. Las imagenes Docker utilizadas para esta entrega están etiquetadas, lo que permite la evolución del código sin afectar la entrega actual.
+
 
 \section{Conclusiones}
 En este incremento se realizaron una cantidad considerable de modificaciones al código. Como es usual en los desarrollos ágiles, primero se parte de una prueba de concepto para mostrar el valor que puede entregar un sistema o algoritmo, y luego se trabaja en mejorar aspectos técnicos para hacer de la misma una idea productizable.
