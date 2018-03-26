@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{Introducci\363n}{}% 1
+\BOOKMARK [1][-]{section.2}{El modelo de data streaming}{}% 2
+\BOOKMARK [1][-]{section.3}{Detecci\363n de anomal\355as}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Modelado del problema}{section.3}% 4
+\BOOKMARK [1][-]{section.4}{M\351todos para determinar elementos frecuentes}{}% 5
+\BOOKMARK [2][-]{subsection.4.1}{Filtros Bloom}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.2}{CountMin Sketch}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{Primer incremento: detecci\363n local de anomal\355as}{}% 8
+\BOOKMARK [1][-]{section.6}{Pruebas realizadas}{}% 9
+\BOOKMARK [2][-]{subsection.6.1}{Patrones de eventos generados localmente}{section.6}% 10
+\BOOKMARK [2][-]{subsection.6.2}{Trafico de red}{section.6}% 11
+\BOOKMARK [1][-]{section.7}{Conclusi\363n y trabajos futuros}{}% 12
