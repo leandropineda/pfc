@@ -15,9 +15,20 @@
 \usepackage{svg}
 \usepackage{lscape}
 \usepackage{draftwatermark}
+\usepackage{svg}
+\usepackage{multicol}
+\usepackage{pgfplots, pgfplotstable}
+\usepackage{amsmath,amsthm}
+\usepackage{hyperref}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+
+
 \SetWatermarkScale{5}
 \SetWatermarkColor[gray]{0.95}
 \usepackage{bytefield}
+\graphicspath{ {graph/} }
+
 
 
 \usepackage[linesnumbered,ruled]{algorithm2e}
@@ -50,7 +61,11 @@
 \modulolinenumbers[5]
 \linenumbers
 
+
 \clearpage\mbox{}\clearpage
+\tableofcontents
+
+\newpage
 
 \section{Introducción}
 En la actualidad, \textit{BigData} es uno de los tantos conceptos de moda en el mundo informático. Este se usa para hacer referencia a grandes colecciones de datos que pueden crecer a volúmenes enormes y a un ritmo tan alto que resulta difícil o imposible manejarlos con las herramientas tradicionales, como las bases de datos relaciones convencionales. El desafío que presenta el \textit{BigData} no solo está limitado a los aspectos técnicos de almacenar cantidades masivas de datos, sino en cómo obtener de estos información relevante que permitan asistir a la toma de decisiones.
@@ -192,7 +207,7 @@ Los elementos frecuentes, también llamados \textbf{heavy hitters}, son problema
 	\rule{4in}{0.3pt}
 \end{center}
 
-\paragraph{Elementos frecuentes: un escenario de aplicación}
+\subsection{Elementos frecuentes: un escenario de aplicación}
 Los dispositivos conectados a Internet y a grandes redes privadas transfieren paquetes IP. Para manejar estas redes es necesario entender en existencia de fallas, la ocurrencia de ciertos patrones de uso y actividades poco usuales en progreso. Esto hace necesario el análisis del tráfico y fallas en tiempo real.
 
 Consideremos el trafico de datos en redes TCP/IP. Este puede ser visto en varios niveles:
@@ -206,7 +221,7 @@ Si bien procesar datos agregados no demanda el uso de recursos computacionales d
 
 Consideremos el problema de determinar la frecuencia de ocurrencia de cierto evento, perteneciente a algún universo de eventos posibles $U$. Para obtenerla basta con llevar registro de la frecuencia $f_i$ por cada elemento $i \in U$: dado $U_0=\{a,b,c\}$ y una serie o stream de eventos $S=\{a,a,b,a,c,b,a\}$, la frecuencia de ocurrencia de cada elemento de $U_0$ es $f_a=4$, $f_b=2$ y $f_c=1$.  A pesar de su simpleza, el costo de memoria de este algoritmo crece exponencialmente cuando la cantidad de eventos posibles $|U|$ aumenta. En términos de implementación, el $|U|$ esta dado por la cantidad de bits que se usen para representar el conjunto. Así, si usamos contadores de 32 bits y $|U|=2^{16}$ tenemos que se necesita almacenar en memoria $2^{16} * 32 \ bits\equiv 8$ KB en contadores, uno por cada evento posible de $U$. 
 
-\begin{figure}[htpb]
+\begin{figure}[ht]
 	\centering
 	\begin{tikzpicture}
 	\begin{axis}[
@@ -237,7 +252,7 @@ Sin embargo, como podemos ver en la figura \ref{fig:universe_exponencial}, el us
 Este tipo de problemas y similares llevaron al desarrollo de diferentes técnicas de conteo: bajo esta abstracción, los algoritmos procesan la entrada una única vez y deben calcular de manera precisa varios resultados usando recursos (espacio y tiempo por elemento) de forma estrictamente sublineal al tamaño de la entrada\cite{Muthukrishnan:2005:DSA:1166409.1166410}. Existen diferentes algoritmos para procesar y obtener información acerca de los eventos usando estructuras de datos que utilizan el espacio de memoria eficientemente. Sin embargo, estos métodos no calculan la frecuencia exacta de cada evento sino que la estiman: en general, para cantidades masivas de eventos basta con tener una buena aproximación de las frecuencias para identificar anomalías.
 
 \newpage
-\clearpage\mbox{}\clearpage
+
 \section{Técnicas para encontrar elementos frecuentes}\label{sec:tecnicas_elementos_frecuentes}
 En algunos escenarios, resolver exactamente el problema de los $phi$ elementos frecuentes que se enunció en la sección \ref{elementos_frecuentes} es inviable dado a los requerimientos de espacio que presenta\cite{Charikar:2002:FFI:646255.684566}. Se han propuesto gran variedad de algoritmos para la resolución del mismo y sus variaciones \cite{Charikar:2002:FFI:646255.684566}\cite{Cormode:2005:WHW:1061318.1061325}\cite{Demaine:2002:FEI:647912.740658}\cite{Manku:2002:AFC:1287369.1287400}. Cómo se mencionó anteriormente, esta técnicas pueden se clasificas en dos tipos, que se describen a continuación.
 
@@ -360,7 +375,7 @@ Para representar un conjunto $U$ de $n$ elementos posibles, un \textit{filtro Bl
 
 Para insertar un elemento $e$ en el filtro se calcula las posiciones en el array evaluando las $k$ funciones de hash $h_1(e)$, $h_2(e)$, \dots, $h_k(e)$. Luego se asigna un $1$ a cada posición del array. Para consultar si un elemento $e'$ está presente o no en el conjunto se deben evaluar las $k$ funciones de hash $h_1(e')$, $h_2(e')$, \dots, $h_k(e')$ para obtener $k$ posiciones en el filtro. Si al menos un bit de los apuntados por las funciones de hash es $0$, entonces el elemento $e'$ no existe en el conjunto. Si todos los bits que indican las funciones de hash están en $1$ es probable que el elemento sea parte del conjunto.
 
-\begin{figure}[htp]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{./graph/bloom.pdf}
 	\caption{Filtro Bloom}
@@ -417,7 +432,7 @@ a_{i_{t'}}(t)=a_{i_{t'}}(t-1) \ \forall t' \neq t
 
 Por cada elemento del \textit{stream} se calculan las $d$ posiciones de los contadores mediante $(j, h_j(i_t))$ para $j \in \{0,1 \dots d-1 \}$ y se los actualiza con el valor de $c_t$:
 
-\begin{figure}[htp]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{./graph/cm_sketch.pdf}
 	\caption{COUNTMIN Sketch}
@@ -464,6 +479,8 @@ Las técnicas basadas en conteo pueden identificar todos los \textit{heavy hitte
 Consideremos ahora un \textit{sketch} con $r$ filas. A cada fila $i$ ($1 \leq i \leq r$) se le asocian $w$ cubetas\footnote{La posición que define el valor de hash de un elemento suele referirse en la literatura como bucket} y una función de hash 2-universal independiente $f_i$ que mapea un elemento o \textit{key} a una de las $w$ cubetas. Hacemos referencia a la j-ésima cubeta ($1 \leq j \leq w$) de la fila $i$ usando ($i$,$j$). Cada cubeta tiene un contador $V_{i,j}$ que se inicializa en 0. Por cada elemento ($x$, $v_x$) en el \textit{stream} de datos, el proceso de actualización calcula el valor de hash de $x$ para cada una de las $r$ filas, incrementando el valor del contador en $v_x$ (como se mencionó anteriormente, $v_x=1$).
 
 Las técnicas basadas en sketches pueden identificar todos los \textit{heavy hitters} (sin falsos negativos) cuyo valor exceda el umbral $\phi$ comprobando si la cubeta correspondiente de todas las $r$ filas tiene valores por encima de $\phi$. Para detectar \textit{heavy changers}, se debe computar la diferencia entre los contadores de cada cubeta en dos \textit{sketches} adyacentes en el tiempo. Por la propiedad lineal de los mismos, la diferencia de cada cubeta es también la suma de las diferencias de los elementos hasheados a la misma. Si un elemento difiere en más de $\phi$ en todas las cubetas correspondientes a las $r$ filas, este es reportado como \textit{heavy changer}.
+
+\subsubsection{Construcción de las funciones de hash}
 
 \subsubsection{Proceso de actualización}
 
@@ -568,8 +585,10 @@ La lista de ataques podría extenderse, pero de forma general podemos concluir q
 
 \newpage 
 
-\section{Modelado del problema}\label{modelado}
-El tráfico de red puede ser caracterizado de muchas maneras, dependiendo de que capa del modelo TCP/IP se esté analizando. La información que proveen las cabeceras de los segmentos TCP resulta sumamente conveniente debido a que:
+\section{Modelado del problema}\label{sec:modelado_del_problema}
+El tráfico de red puede ser caracterizado de muchas maneras, dependiendo de la capa de red que se esté analizando. Por ejemplo, en la actualidad la industria de la seguridad informática está adoptando cada vez más las soluciones basadas en \textit{User and Entity Behavior Analytics} o UEBA para detectar amenazas que puedan originarse dentro de la organización, ataques dirigidos o fraude. Estas soluciones analizan el comportamiento de comportamiento humano (y por lo tanto hacen uso de la información provista por la capa de aplicación), y luego aplican algoritmos y análisis estadístico para detectar patrones anómalos, los cuales pueden indicar potenciales amenazas.
+
+Por otro lado, podemos extraer datos de otras capas de más bajo nivel. La información que proveen las cabeceras de los segmentos TCP resulta sumamente conveniente debido a que:
 \begin{itemize}
 	\item Permite identificar las conexiones punto a punto entre dispositivos, haciendo posible monitorear las comunicaciones por separado.
 	\item Es sencilla de procesar dada su simpleza.
@@ -591,7 +610,7 @@ Cada uno de estos elementos debe ser transformado mediante una función de hash 
 
 En aplicaciones reales, las redes de datos suelen estar separadas en subredes de a lo sumo un par de decenas de miles de dispositivos. Diseñar una solución que soporte un universo de $2^{104}$ elementos posibles significa invertir esfuerzo en construir un sistema con prestaciones que nunca serán utilizadas en su máximo potencial. En su lugar, podemos optar trabajar con un conjunto reducido de elementos acorde a lo que se observa en el mundo real.
 
-Como el tamaño de las redes puede variar significativamente, resulta casi imposible definir a priori el tamaño del universo de elementos posibles, sin correr el riesgo que la solución no se adapte a un entorno particular. Por esto, y como será desarrollado en detalle más adelante en el documento, la forma de transformar los elementos representados por cadenas de caracteres a números enteros de forma eficiente y escalable consiste en asignar un valor numérico a cada elemento a medida que estos aparezcan, y mantener esa asociación en una base de datos que puede ser consultada regularmente. Una vez obtenidos aquellos números enteros que representan los elementos anómalos, la transformación a cadena de caracteres se realiza mediante una consulta a dicha base de datos mediante un \textit{reverse lookup}.
+Como el tamaño de las redes puede variar significativamente, resulta casi imposible definir a priori el tamaño del universo de elementos posibles, sin correr el riesgo que la solución no se adapte a un entorno particular. Por esto, y como será desarrollado en detalle más adelante en el documento, la forma de transformar los elementos representados por cadenas de caracteres a números enteros de forma eficiente y escalable consiste en asignar un valor numérico a cada elemento a medida que estos aparezcan, y mantener esa asociación en una base de datos que puede ser consultada regularmente. Una vez obtenidos aquellos números enteros que representan los elementos anómalos, la transformación a cadena de caracteres se realiza mediante una consulta a dicha base de datos mediante un \textit{reverse lookup}. Otra ventaja de este enfoque es que los \textit{sketches} no necesitan realizar operaciones de hash para transformar los elementos dado que operan directamente con números enteros, reduciendo la carga de procesamiento y aumentando el desempeño en consecuencia.
 
 \newpage
 
@@ -681,18 +700,18 @@ El segundo flujo debe ocurrir a intervalos regulares de tiempo, a los que llamam
 
 En la figura \ref{fig:system_components} se detallan las entidades del servicio y sus relaciones.
  
-\begin{figure}[htbp]
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=1\textwidth]{./graph/system_components.pdf}
+	\includegraphics[width=0.9\textwidth]{./graph/system_components.pdf}
 	\caption{Entidades del sistema y su interacción}
 	\label{fig:system_components}
 \end{figure}
 
 Cada vez que un nuevo evento es publicado en la cola de mensajes, la entidad \textit{BrokerClient} (encargada de abstraer la lógica de conexión y manejo de errores en la interacción con la cola de mensajes) notifica a \textit{SketchManager} enviando el evento codificado como una cadena de caracteres. El valor entero asociado al evento se obtiene mediante \textit{RedisManager}, cuya responsabilidad es la de asignar un nuevo valor o retornar uno previamente asignado. La figura \ref{diag:redis_manager} se muestra el diagrama de secuencia de la entidad.
 
-\begin{figure}[htbp]
+\begin{figure}[hb]
 	\centering
-	\includegraphics[width=0.7\textwidth]{./graph/SecDiag-redisManagerGetValue.pdf}
+	\includegraphics[width=0.6\textwidth]{./graph/SecDiag-redisManagerGetValue.pdf}
 	\caption{Diagrama de secuencia asociación de valor entero a evento.}
 	\label{diag:redis_manager}
 \end{figure}
@@ -709,7 +728,7 @@ Si bien esto tiene un costo adicional en términos de espacio, permite realizar 
 
 La figura \ref{diag:add_event} muestra la interacción entre las tres entidades descritas anteriormente.
 
-\begin{figure}[htbp]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{./graph/SecDiag-resourceAddEventMosquitto.pdf}
 	\caption{Diagrama de secuencia nuevo evento.}
@@ -726,50 +745,579 @@ Los procesos que deben ocurrir a intervalos de tiempo regulares para la detecci�
 
 Dado que estos procesos son centrales es necesario detallar su funcionamiento y resaltar algunos puntos relacionados a implementación.
 La figura \ref{diag:sketch_rotation} muestra el diagrama de secuencia de la rotación de un \textit{sketch}. Para mantener un \textit{sketch} activo e implementar el método de rotación se utilizó una cache de un único elemento. Cada vez que \textit{DetectionScheduler} envía la señal de fin de época a \textit{SketchManager} el elemento de la cache es invalidado, provocando su remoción. La cache está configurada para que cada vez que un elemento es invalidado, se ejecute un \textit{callback} que provoca la inserción del objeto en \textit{SketchHistoryQueue}.
-Cuando un elemento o evento es añadido usando el método correspondiente en \textit{SketchManager} (ver figura \ref{diag:add_event}), primero se intenta recuperar el \textit{sketch} disponible en la cache. Si este existe es devuelto inmediatamente; de lo contrario, es decir, si todavía no se generó ningún objeto o si fue invalidado, la cache invoca la generación de un nuevo objeto \textit{sketch}, el cual va a ser utilizado por todo lo que dure la época de detección. 
+Cuando un elemento o evento es añadido usando el método correspondiente en \textit{SketchManager} (ver figura \ref{diag:add_event}), primero se intenta recuperar el \textit{sketch} disponible en la cache. Si este existe es devuelto inmediatamente; de lo contrario, es decir, si todavía no se generó ningún objeto o si fue invalidado recientemente, la cache invoca la generación de un nuevo objeto \textit{sketch}, el cual será utilizado por todo lo que dure la época de detección. 
 
-\begin{figure}[htbp]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{./graph/SecDiag-detectionSchedulerRotation.pdf}
 	\caption{Diagrama de secuencia rotación de sketches.}
 	\label{diag:sketch_rotation}
 \end{figure}
 
+Luego de la rotación del \textit{sketch} se invoca el proceso de detección de \textit{heavy keys}. En la figura \ref{diag:hk_detection} puede observarse el diagrama de secuencia correspondiente. Una vez \textit{DetectionScheduler} da por finalizada una época, \textit{HeavyKeyDetector} recupera los dos \textit{sketches} más recientes que estén disponibles. Si bien es necesario solo un \textit{sketch} para realizar la detección de \textit{heavy hitters}, los \textit{heavy changers} solo pueden ser determinados entre épocas por lo que es necesario contar con los objetos de épocas adyacentes. Una vez se ejecutan los algoritmos de detección desarrollados en la sección \ref{sec:tecnicas_elementos_frecuentes} se obtiene un conjunto de números enteros, los cuales están asociados a cadenas de caracteres que representan los eventos (puntualmente el segmente TCP/IP). Para más información de la representación interna de los datos, ver la sección \ref{sec:modelado_del_problema}. Una vez obtenidos las cadenas de caracteres que identifican a aquellos elementos identificados como \textit{heavy keys}, estos se agregan a un histórico que es representado por \textit{HeavyKeysHistoryQueue}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./graph/SecDiag-detectionSchedulerDetect.pdf}
+\caption{Diagrama de secuencia detección de \textit{heavy keys}.}
+\label{diag:hk_detection}
+\end{figure}
+
+Finalmente, la API REST pone a disposición los recursos necesarios para acceder a la información que es determinada por los flujos desarrollados. Así, la interfaz web o \textit{frontend} del sistema pueden mostrar esta información de manera conveniente. Además, cualquier otra aplicación desarrollada por terceros podría consumir esta información para generación de alarmas o para disparar otros procesos.
+
+\subsection{Recursos REST}
+Los recursos expuestos por el servicio se acceden mediante las siguientes URIs.
+
+\begin{itemize}
+	\item GET     /health
+	\item GET     /heavykeys
+	\begin{itemize}
+		\item Parámetros: count (tipo: string)
+	\end{itemize}
+	\item GET     /heavykeys/heavyhitters
+	\begin{itemize}
+		\item Parámetros: epoch (tipo: string)
+	\end{itemize}
+	\item GET     /heavykeys/heavychangers
+	\begin{itemize}
+		\item Parámetros: epoch (tipo: string)
+	\end{itemize}
+	\item GET     /sketchhistory
+	\begin{itemize}
+		\item Parámetros: count (tipo: string)
+	\end{itemize}
+	\item GET     /status
+\end{itemize}
+
+\subsection{Interfaz gráfica}
+
+Una vez que los datos procesados por el sistema son presentados en forma estructurada mediante la REST API descrita anteriormente, solo resta diseñar una interfaz adecuada que muestre los datos de manera conveniente al usuario. Para esto se optó por un diseño web \textit{responsive}, con dos histogramas para presentar la ocurrencia de \textit{heavy keys} a lo largo del tiempo. Como la visualización de los datos pretende ser simple y concisa, se implementó una aplicación web de página única o SPA por sus siglas en inglés: \textit{Single-page Application}.
+
+Además, se pueden obtener las cadenas de caracteres asociadas a cada una de ellas, por cada época, en un panel tipo lista junto a los histogramas. Finalmente, en la cabecera de la interfaz puede visualizarse el resto de la información relevante, como la cantidad total de eventos procesados y la cantidad de \textit{heavy keys} detectados (discriminados en los dos tipos desarrollados), así como la época de detección actual.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{./graph/ui.png}
+	\caption{Interfaz web del sistema.}
+	\label{diag:ui}
+\end{figure}
+
+Respecto a las tecnologías disponibles, existen dos estándares:
+\begin{itemize}
+	\item AngularJS: es un framework desarrollado y mantenido por Google Inc. Está escrito en JavaScript y hace uso del patrón de diseño MVC.
+	\item ReactJS: es una librería para construir interfaces de usuario. Desarrollada y mantenida por Facebook, está pensada para diseñar vistas simples para cada estado de una aplicación. La librería es la encargada de actualizar y re-dibujar los componentes que sean necesarios cuando los datos cambian.
+\end{itemize}
+
+Si bien ambas tecnologías son ampliamente usadas y su desarrollo es sumamente activo, ReactJS parece ser la opción más conveniente dado que sus características se ajustan al problema que se intenta resolver, es decir, mostrar los datos provistos por el \textit{web-service} de manera dinámica, mientras que AngularJS ofrece un framework MVC completo que agregaría complejidad al desarollo.
+
+En cuanto a cómo mostrar los datos, la primera aproximación consistió en el uso de una tabla con 5 columnas para fecha de detección, cantidad de \textit{Heavy Hitters}, los \textit{Heavy Hitters} detectados, cantidad de \textit{Heavy Changers} y los \textit{Heavy Changers} detectados. Sin embargo, cómo la cantidad de eventos detectados por fila es variable, hubiese sido necesario mostrar más de una dato por celda, por lo que la utilización de una tabla parecería no ser la adecuada (se asume que cada celda es atómica, es decir, debe mostrar un único dato).
+
+Otra alternativa mas conveniente dada la naturaleza temporal de los datos, y la cantidad de ocurrencia de eventos, es utilizar un histograma con desplazamiento. Con cada desplazamiento, los datos para la nueva época son agregados. Así, puede observarse cuando ocurren ciertos eventos, y compararlos a simple vista con otros intervalos de tiempo pasados y futuros. En la imagen \ref{diag:ui} puede observase una primera implementación de la interfaz web.
 
 
+\newpage
+
+\section{Telemetría}
+Cuando los servicios son llevados a ambientes de producción, es esencial poder monitorear diferentes métricas de manera remota. Más aún, es importante llevar un registro de la historia de dichas métricas para entender cómo se comporta el sistema a lo largo del tiempo, tanto cuando es sometido a diferentes cargas como cuando se presenta algún problema que interrumpe su funcionamiento o degrada sus rendimiento. Además, cuando se implementa adecuadamente, la telemetría puede ser usada para entender en tiempo real como los usuarios hacen uso de la aplicación.
+
+Telemetría se define como un proceso automático de comunicación por el que mediciones y otros datos son recolectados y transmitidos a los equipos con los que se realizan tareas de monitoreo. En el mundo de las aplicaciones en la nube, se debe controlar la salud y la performance de las aplicaciones constantemente, de manera remota. Los datos de telemetría provienen de logs, métricas y eventos. Usualmente, las mediciones se relacionan al consumo de memoria, uso de CPU y tiempos de respuesta de bases de datos, entre otros.
+
+Los casos de uso principales para monitorear eventos, logs y métricas pueden catalogarse en las siguientes categorías:
+\begin{itemize}
+	\item Tiempo fuera de servicio: consiste en controlar la ocurrencia de inconvenientes en los sistemas en producción para resolverlos lo más rápido posible.
+	\item Monitoreo del producto: analizar y comprender el comportamiento de los usuarios para mejorar el producto o servicio que se está prestando.
+	\item Predecir anomalías futuras: anticiparse a los problemas antes de que ocurran.
+	\item Seguridad: controlar proactivamente la existencia de fallas de seguridad
+\end{itemize}
+
+Para implementar una solución de telemetría de utilidad, es necesario decidir que datos son importantes y determinar que logs, eventos y métricas se relacionan con los KPI (\textit{Indicadores Clave de Performance}). Además de los datos de la aplicación en sí, también es importante monitorear constantemente la infraestructura que hace posible que el servicio funcione. Para este desarrollo, es necesario desplegar un conjunto de servicios para almacenar y comunicar los datos de telemetría del servicio encargado de hacer la detección de anomalías. El gráfico muestra los servicios desplegados y su interacción\footnote{Si bien el sistema está diseñado para ser desplegado en un cluster de servidores, los servicios se ejecutan en un único equipo haciendo uso de tecnologías de virtualización.}:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{./graph/service_infrastructure.pdf}
+	\caption{Infraestructura completa del servicio, incluyendo telemetría.}
+	\label{diag:service_infrastructure}
+\end{figure}
+
+Los servicios y flujos que están dibujados con lineas completas fueron los que se mostraron en la figura \ref{fig:system_components}. Aquellos en lineas punteadas son los utilizados para implementar telemetría en todos los componentes. Cada uno de los 'exporter' es el encargado de recolectar la información que publican los servicios y escribirla en una base de datos de series de tiempo. Luego, con la información temporal disponible, es posible agregar dicha información y mostrarla en forma organizada.
+
+Además de los parámetros básicos de uso de CPU, memoria y utilización de recursos de red de cada una de las instancias del sistema, el servicio principal fue instrumentado para exponer una serie de métricas de interés:
+
+\begin{itemize}
+	\item Cantidad de eventos procesados por segundo.
+	\item Cantidad de \textit{heavy keys} detectadas por época.
+	\item Cantidad de clientes conectados, publicando eventos.
+	\item Cantidad de mensajes recibidos (Broker).
+	\item Uso de memoria y cantidad de hilos de la JVM.
+\end{itemize}
+
+En base a la información agregada se pueden construir \textit{dashboards} que resumen el comportamiento del sistema a lo largo del tiempo, y el estado del mismo. Estas pantallas resultan de suma utilidad para quien esté monitoreando el servicio, dado que permiten visualizar el estado general de toda la infraestructura. En los anexos se incluyen capturas de pantalla de las dos vistas más relevantes con respecto a telemetría.
+
+La base de datos utilizada tiene una característica particular con respecto a las bases de datos convencionales de series de tiempo. Cómo se desarrollará más adelante, el mecanismo por el cual se obtienen los datos es una característica diferenciadora, lo cual se evidencia en la dirección de las flechas que salen de la base de datos a los componentes: aunque parece contraintuitivo, delegar la responsabilidad de obtener los datos a la base de datos evita problemas de sincronismo y evita instrumentación necesaria en el código del componente.
+
+\newpage
+
+\section{Tecnologías utilizadas}\label{sec:tecnologias_utilizadas}
+
+Dados los distintos tipos de desafíos que se fueron presentando en el desarrollo del proyecto, fue necesario implementar soluciones a los mismos haciendo uso de alguna de las tecnologías disponibles actualmente. En muchos casos es posible encontrarse con que varios tipos de tecnologías resuelven problemas similares, pero que cada una tiene una característica particular que la diferencia y la hace más o menos aplicable a ciertas situaciones.
+
+\subsection{Desarrollo del servicio principal}
+Con respecto a la selección del lenguaje de programación, Java\cite{java} es prácticamente la única opción disponible cuando se quiere construir sistemas de alto desempeño y robustez. Es un lenguaje maduro, ampliamente adoptado por compañias alrededor del mundo y dispone de librerías para la gran mayoría de las tecnologías existentes. El sistema utiliza \textit{OpenJDK} en su versión 8, dado que introduce, entre muchas características, el uso de expresiones lambda. Estas permiten explotar las capacidad de cómputo paralelo de los sistemas con múltiples núcleos, lo cual es esencial para las aplicaciones de \textit{data streaming}.
+
+Respecto a la elección del \textit{framework} de desarrollo, se optó por \textit{Dropwizard}\cite{dropwizard}. El mismo permite construir \textit{RESTful webservices} de alta performance brindando soporte nativo para manejo de configuraciones y métricas de aplicación. Además, brinda la posibilidad de empaquetar todas las dependencias en un único artefacto, evitando la necesidad de configurar y mantener servidores HTTP para ejecutar el código de la aplicación. Utiliza \textit{Jetty}\cite{jetty} para HTTP, haciendo posible embeber el servidor web junto con el código, \textit{Jersey}\cite{jersey} para construir aplicaciones web RESTful, \textit{Jackson}\cite{jackson} para dar formato a los objetos JSON y \textit{Metrics}\cite{metrics} para generar métricas del servicio.
+
+Una librería adicional utilizada es \textit{Guava}\cite{guava}. Es un conjunto de librerías \textit{core} mantenido por Google, que incluye nuevos tipos de colecciones cómo \textit{multimaps} y \textit{multisets}, colecciones inmutables, una librería de grafos y implementaciones de caches de distintos tipos, por nombrar algunas de las tantas características que tiene.
+
+\
+
+El desarrollo y despliegue del servicio se basan en la plataforma de contenedores \textit{Docker}\cite{docker}. Permite empaquetar aplicaciones y sus dependencias en contenedores virtuales que pueden ejecutarse en cualquier sistema operativo. Puede integrarse con varias herramientas de infraestructura como AWS, Ansible, Google Cloud Platform, Kubernetes, Puppet, Vagrant, entre otros.
+Además, permite construir flujos de integración continua dado que cada nueva versión de código puede ser empaquetada en cuestión de minutos e integrada con el resto de la infraestructura con solo cambiar el contenedor correspondiente. Mediante el uso de repositorios centrales como \textit{DockerHub}, brinda la posibilidad de construir y distribuir automáticamente nuevos paquetes de código.
+Finalmente, el uso de \textit{docker-compose} permite definir y ejecutar aplicaciones multi-contenedor, usando un archivo YAML para configurar los servicios de la aplicación y una interfaz de linea de comandos para orquestar la creación y ejecución de todos los contenedores. La infraestructura definida en la figura \ref{diag:service_infrastructure} está codificada en el archivo \textit{docker-compose.yml}, disponible en el repositorio del servicio\cite{sketch-service}. Allí pueden encontrarse también las instrucciones para desplegar todos los componentes en cualquier sistema operativo GNU/Linux con ambas herramientas instaladas.
 
 
+\subsection{Base de datos clave-valor}
+Como se discutió en la sección \ref{sec:modelado_del_problema}, la necesidad de asociar valores con cadenas de caracteres en un repositorio centralizado que pueda ser accedido de manera eficiente hace necesaria la utilización de una base de datos clave-valor.
+Este tipo de base de datos surge como una alternativa a las limitaciones de las base de datos relacionales (RDB), donde los datos son estructurados en tablas cuyo esquema debe ser predefinido. En las bases de datos \textit{NoSQL}, no existe esquema y el valor del dato es opaco. Los valores son identificados y accedidos mediante una clave, y los valores almacenados pueden ser números, strings, contadores, JSON, XML, HTML, binarios, imágenes, entre otros. Es el modelo \textit{NoSQL} más flexible porque la aplicación tiene control absoluto sobre lo que es almacenado como valor.
+
+Muchas aplicaciones que no se adaptan al modelo tradicional RDB pueden beneficiarse del modelo \textit{clave-valor}, dado que ofrece una serie de ventajas:
+
+\begin{itemize}
+	\item Modelado de datos flexible: dado que los datos no deben tener una estructura compatible con un esquema, estas bases de datos ofrecen mucha flexibilidad para modelar los datos de forma que cumplan los requerimientos de la aplicación.
+	\item Alta performance: la arquitectura \textit{clave-valor} puede ser mucho más eficiente que la RDB en muchos escenarios dado que no existe la necesidad de utilizar locks, join, union u otras operaciones cuando se trabaja con objetos. A diferencia de las RDB, un almacén \textit{clave-valor} no necesita realizar búsquedas entre columnas o tablas para encontrar un objeto: dada la clave es posible obtener la ubicación del objeto rápidamente.
+	\item Simplicidad operacional: algunas bases de datos están diseñadas específicamente para simplificar su operación, facilitando los mecanismos para agregar o quitar capacidad si es necesario, y asegurando que fallas en hardware o redes no generen tiempos fuera de servicio.
+\end{itemize}
+
+Dados los requerimientos de alto desempeño no es posible persistir los datos en disco. Por este motivo, es necesario optar por una base de datos en memoria. Entre las más conocidas, se evaluaron dos alternativas:
+
+\begin{itemize}
+	\item Memcached: es un sistema distribuido para cacheo de memoria. Se utiliza para almacenar objetos en memoria de forma de reducir el número de veces que se consultan fuentes de datos externas. Básicamente, Memcached es una gran tabla de hash distribuida en muchos equipos.
+	\item Redis: es una base de datos \textit{clave-valor} en memoria, con la opción de persistencia. Maneja distintos tipos de estructuras de datos abstractas como strings, listas, conjuntos, etc.
+\end{itemize}
+
+Si bien Memcached es superior en performance, Redis brinda la posibilidad de persistir los datos en disco. Esto puede resultar ventajoso si se pretende pausar el servicio o si una eventual falla implica reiniciar el servicio: guardando estados de la base de datos a intervalos regulares de tiempo permite seguir trabajando con una pérdida muy pequeña de información, o si el servicio es pausado, permite reanudar su funcionamiento de manera inmediata.
+
+\subsection{Telemetría}
+Para analizar los datos de telemetría de forma adecuada, es necesario persistirlos en un soporte adecuado. En la actualidad, existen diferentes tipos de bases de datos de series de tiempo, cada una con sus características diferenciadoras. Para este proyecto se optó por \textit{Prometheus}.
+\
+
+\textit{Prometheus} es más que una bases de datos de series de tiempo, es un sistema completo de monitoreo y alerta. La característica diferenciadora que hace tan popular a esta tecnología es la forma en que los datos se escriben en la base de datos. En los anexos puede verse un diagrama de su arquitectura. Los datos almacenados en \textit{Prometheus Server} (que es la base de datos en sí) son persistidos mediante un mecanismo de \textit{pulling}: una serie de \textit{exporters} exponen las distintas métricas mediante una interfaz \textit{REST} que es consumida por el servidor y almacenada en la base de datos. Los \textit{exporters} permiten integrar los distintos servicios de manera transparente, y proveen una interfaz que evita acoplar lo componentes con la solución de telemetría. Estos pueden observarse en la figura \ref{diag:service_infrastructure}.
+
+\subsection{Monitoreo de los contenedores}
+\textit{cAdvisor} es un demonio que colecta, agrega, procesa y exporta información acerca de los contenedores que están ejecutándose en el sistema. Permite entender el uso de recursos y las características de performance de los mismos. Es mantenido por Google y es el estandar para monitoreo de contenedores.
 
 
+\newpage
+
+\section{Pruebas realizadas}
+Se realizaron dos experimentos para comprobar el funcionamiento del servicio. En el primero se generaron una serie de eventos en el tiempo con un patrón en particular. En el segundo experimento se utilizaron los flujos TCP/IP de una captura de tráfico de red para generar los eventos generados por un equipo de red. 
+
+\subsection{Patrones de eventos generados localmente}
+Para el primer experimento se generaron una serie de eventos consecutivos en el tiempo, representados como un par \textit{(tiempo, evento)}. Para cada etiqueta, los eventos son espaciados regularmente en el intervalo de tiempo en el que se generaron, y se agregan pequeñas perturbaciones para evitar que la cantidad de eventos en ventanas adyacentes sea idéntica. Además, se agregan una serie de eventos aleatorios para simular situaciones reales donde pueden existir otras etiquetas que introducen ruido a la señal.
+
+En la figura \ref{fig:prueba1} se observa la distribución de los eventos generados a lo largo del tiempo, para un intervalo de 60 segundos. Cada barra del gráfico representa un intervalo de tiempo de $3$ segundos.
+Los eventos se generan para los intervalos de tiempo definidos de la siguiente manera: en el intervalo $(0,10)$ se generan $1200$ eventos $E1$, en $(10,40)$ se generan $800$ eventos $E2$, en $(33,36)$ se generan $400$ eventos $E3$, en $(40,47)$ se generan $500$ eventos $E4$ y en $(54,58)$ se generan $400$ eventos $E5$. Finalmente se suman $1500$ eventos aleatorios a toda la duración de la simulación. 
+
+\begin{figure}[ht]
+	\centering
+	\makebox[0pt][c]{%
+		\begin{minipage}{0.75\textwidth}
+			\centering
+			\includegraphics[scale=0.7]{graph/prueba1.png}
+			\caption{Distribución de los eventos en el tiempo}
+			\label{fig:prueba1}
+		\end{minipage}
+		\begin{minipage}{0.6\textwidth}
+			\small
+			\centering
+			\begin{tabular}{ | l | c | c | c | c | c | c | c | c |}			
+				\hline			
+				Tiempo & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\
+				\hline
+				Heavy Hitters & - & E1 & E1 & E1 & E1 & E1 & E1\\
+				Heavy Changers & E1 & - & - & - & - & - & - \\
+				\hline
+				\hline
+				Tiempo & 7 & 8 & 9 & 10 & 11 & 12 & 13  \\
+				\hline
+				Heavy Hitters & E1 & - & - & - & - & E3 & - \\
+				Heavy Changers & E1 & - & - & - & E3 & E3 & E3 \\
+				\hline\hline
+				Tiempo & 14 & 15 & 16 & 17 & 18 & 19 & 20 \\
+				\hline
+				Heavy Hitters & - & E4 & E4 & - & - & E5 & - \\
+				Heavy Changers & E4 & - & E4 & - & E5 & E5 & - \\
+				\hline
+			\end{tabular}
+			\caption{HeavyKeys detectadas}
+			\label{tab:prueba1}
+		\end{minipage}
+	}%
+\end{figure}
+
+Comprobando los resultados de la detección, se puede observar un defasaje entre los eventos detectados y los mostrados en la figura \ref{fig:prueba1}. Esto es así debido a que la simulación no inicia necesariamente en el comienzo de una época de detección (es decir, al comienzo de la ventana de tiempo de $3$ segundos configurada para este experimento). Por ejemplo, $E1$ es reportado como \textit{heavy changer} al momento $0$ cuando en realidad debería pasar inadvertido. Sin embargo, en el siguiente intervalo es reportado correctamente.
+De la misma manera, podemos ver que el evento $E2$ no es reportado dado que esta por debajo de los límites configurados.
+
+\
+
+Los parámetros con los que el servicio estaba configurado a la hora de realizar esta prueba son: 
+
+\begin{multicols}{2}
+	\begin{itemize}
+		\item Sketches
+		\begin{itemize}
+			\item rows(5)
+			\item cols(100)
+			\item prime(7283)
+		\end{itemize}
+	\end{itemize}
+	\columnbreak
+	\begin{itemize}
+		\item Detección
+		\begin{itemize}
+			\item heavyHitterThreshold(150)
+			\item heavyChangerThreshold(100)
+			\item sketchRotationInterval(3)
+		\end{itemize}
+	\end{itemize}
+\end{multicols}
+
+\subsection{Trafico de red}
+En esta prueba se utilizó un archivo de captura de tráfico de red para emular el comportamiento de los paquetes que atraviesan una interfaz de red. Este dataset, que es usado en la suite \textit{Tcpreplay\footnote{http://tcpreplay.appneta.com/wiki/captures.html}} para probar performance en switches y adaptadores de red, esta diseñado para generar una gran cantidad de flujos usando varios protocoles, manteniendo bajo el tráfico promedio de la red. Contiene 15000 paquetes de red y una duración de 300 segundos.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=.9\textwidth]{graph/smallFlows_conversations.png}
+	\caption{Conversaciones TCP del archivo de captura de tráfico de red}
+	\label{fig:smallFlows_conversation}
+	
+\end{figure}
+
+Analizando los flujos que se muestran en la figura \ref{fig:smallFlows_conversation} se puede observar que la conversación con mayor cantidad de paquetes ocurre entre las direcciones 130.117.72.100:443 y 172.16.255.1:10638. A partir del instante $111.35$ se intercambian $1048$ paquetes en un período de $18.12$ segundos, que son detectados correctamente como \textit{heavy changers}. Los parámetros con los que se configuró el sistema son similares a los usados en el experimento anterior, solo que se aumentaron los umbrales: \textit{heavyHitterThreshold} es $250$ y \textit{heavyChangerThreshold} es $200$.
 
 
+\subsection{Mejoras de performance}
+\subsubsection{Implementación inicial: REST API}
+En la implementación inicial se había optado por registrar la ocurrencia de eventos usando una interfaz REST API, mayormente por la sencillez de su implementación y el amplio soporte y adopción que tiene esta tecnología en el mundo de los \textit{webservices}. Sin embargo, se observa que cuando se intentan procesar cantidades masivas de eventos en tiempo real, el sistema evidencia una \textit{performance} pobre dada la naturaleza síncrona de la comunicación.
+
+Los resultados de las pruebas que serán mostradas a continuación, se realizaron en un sistema con las siguientes característica: procesador AMD FX6300 a $2.5$ GHz, 8GB de memoria RAM, sistema operativo \textit{Ubuntu Linux 16.04}, kernel \textit{GNU/Linux 4.13.0.32-generic}.
+
+Para determinar el volumen real de eventos que el sistema puede manejar, se generaron datos sintéticos y se registraron en el sistema de manera consecutiva por un lapso de 10 minutos, sin espera entre la registración de cada evento. El gráfico \ref{fig:REST} muestra la cantidad de eventos procesados a lo largo del tiempo.
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	axis x line=middle,
+	axis y line=middle,
+	enlarge y limits=true,
+	width=12cm, height=8cm,     % size of the image
+	grid = major,
+	grid style={dashed, gray!30},
+	ylabel=eventos,
+	xlabel=$s$,
+	legend style={at={(0.1,-0.1)}, anchor=north}
+	]        
+	
+	\addplot [no markers, red, line width=1pt] table [y={create col/linear regression={y=y}}] {data/tablerest.dat};
+	\addplot[mark=diamond] table  {data/tablerest.dat};
+	\end{axis}
+	\end{tikzpicture}
+	
+	\caption{Eventos procesados a lo largo del experimento (REST API).} \label{fig:REST}
+\end{figure}
+
+La recta que mejor ajusta los datos está dada por la ecuación $y = 253.71 x + 32.1$. La pendiente de la recta sirve entonces para estimar la performance de la implementación REST del sistema en alrededor de $250$ eventos por segundo.
+
+\subsubsection{Nueva implementación: Messaging Queue}
+Para esta nueva implementación es necesario un nuevo componente en la arquitectura del sistema. Se agregó una instancia de una \textit{message queue} y se hicieron las modificaciones necesarias para que el \textit{webservice} se suscriba a un tópico determinado y procese los eventos que son allí publicados: esto implica cambiar la interfaz para la creación de nuevos eventos e implementar los callbacks necesarios.
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	axis x line=middle,
+	axis y line=middle,
+	enlarge y limits=true,
+	width=12cm, height=8cm,     % size of the image
+	grid = major,
+	grid style={dashed, gray!30},
+	ylabel=eventos,
+	xlabel=$s$,
+	legend style={at={(0.1,-0.1)}, anchor=north}
+	]        
+	
+	\addplot [no markers, red, line width=1pt] table [y={create col/linear regression={y=y}}] {data/tablemq.dat};
+	\addplot[mark=diamond] table  {data/tablemq.dat};
+	\end{axis}
+	\end{tikzpicture}
+	
+	\caption{Eventos procesados a lo largo del experimento (Message Queue).} \label{fig:MQ}
+\end{figure}
+
+Las pruebas realizadas son similares a las presentadas anteriormente y se realizan en el mismo sistema. Se generaron eventos aleatorios y se publicaron en un canal determinado de la cola de mensajes. Muestreando la cantidad de eventos que el sistema procesa a intervalos regulares de tiempo, se confecciono la gráfica \ref{fig:MQ}. A simple vista se puede observar un aumento pronunciado en la performance del sistema. La recta que ajusta a los datos está dada por la ecuación $y = 6907.2 x - 48449$, por lo que podemos estimar un volumen de procesamiento de alrededor de $6900$ eventos por segundo. La única desventaja de este método de envío de mensajes es que requiere que los clientes publiquen los mensajes en un canal dado, haciendo uso de las librerías correspondientes para su implementación. Además, podemos observar que la gráfica es una curva perfecta, mientras que en el caso previo se pueden observar pequeñas oscilaciones regulares a lo largo del tiempo. Esto puede deberse a procesos que JVM ejecuta en segundo plano, como el \textit{garbage collector}, dado el volumen de objetos que se crean y destruyen en memoria.
+
+Con la implementación actual, podemos observar que la performance del sistema es 27 veces mejor que la implementación del segundo incremento. Aunque esto implica el despliegue de un servicio de cola de mensajes y escribir clientes que publiquen mensajes en la misma, la ganancia en prestaciones es lo suficientemente buena como para que el beneficio justifique los costos de desarrollo.
+
+\subsection{Pruebas de longevidad}
+Las pruebas de longevidad permiten conocer la estabilidad del sistema. Son de larga duración y permiten corroborar el comportamiento del sistema con una carga apropiada, que simula condiciones reales de uso. Usualmente, se estima cual sería una carga típica para una aplicación dada y se somete a los componentes a un múltiplo de este valor: si cierta aplicación se estima va a generar 100 eventos por segundo, entonces las pruebas de longevidad van a generar 500 eventos por segundo durante un período de varias horas. De esta manera, los desarrolladores tienen cierta confianza en que, si no ocurren fallos cuando el sistema se somete a esta prueba, tampoco ocurrirán en condiciones normales.
+
+Luego de someter al sistema a una carga máxima constante durante 14 horas se observa que:
+\begin{itemize}
+	\item Se procesaron más de 10 billones de eventos en poco más de 16000 épocas.
+	\item El consumo de memoria se mantiene estable durante toda la prueba.
+	\item En promedio, el sistema procesó eventos a una velocidad de 20000 eventos por segundo\footnote{Las fluctuaciones que se observan en la gráfica son resultado de haber realizado las pruebas en un entorno de desarrollo}.
+	\item La API de \textit{health} del sistema reporta el correcto funcionamiento de todos los componentes durante la duración de la prueba.
+\end{itemize}
+
+En las siguientes figuras pueden observarse la telemetría más relevante durante toda la prueba:
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{./graph/processed_evts_per_second.png}
+	\caption{Eventos procesados por segundo.}
+	\label{diag:processed_evts_per_second}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{./graph/jvm_memory.png}
+	\caption{Memoria de la Java Virtual Machine.}
+	\label{diag:jvm_memory}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{./graph/cpu_usage.png}
+	\caption{Consumo de CPU.}
+	\label{diag:cpu_usage}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{./graph/memory_usage.png}
+	\caption{Consumo de memoria de los contenedores.}
+	\label{diag:memory_usage}
+\end{figure}
+\clearpage
+
+\section{Instalación}
+El sistema y sus dependencias se implementan usando \textit{docker-compose}\footnote{https://docs.docker.com/compose/}. Esto permite su distribución de manera sencilla y asegura independencia del sistema operativo y servidor donde es ejecutado. Las instrucciones para su instalación, configuración y prueba pueden encontrarse en \hyperref[https://github.com/leandropineda/sketch-service]{https://github.com/leandropineda/sketch-service}. Las instrucciones para instalar \textit{docker} y \textit{docker-compose} pueden encontrarse en su página oficial \hyperref[https://www.docker.com/]{https://www.docker.com/}
+
+\
+
+El código fuente del servicio está disponible en \hyperref[https://github.com/leandropineda/sketch-ws]{https://github.com/leandropineda/sketch-ws}. La imagen Docker, que se construye automáticamente con cada nuevo commit al repositorio Git, está disponible en \hyperref[https://hub.docker.com/r/lpineda/sketch-ws/]{https://hub.docker.com/r/lpineda/sketch-ws/}. Puede descargarse del registro público usando el comando \textit{docker pull lpineda/sketch-ws}.
+
+\
+
+De la misma manera, el código fuente de la interfaz web puede encontrarse en \hyperref[https://github.com/leandropineda/sketch-ui]{https://github.com/leandropineda/sketch-ui}, y la imagen docker correspondiente está disponible en \hyperref[https://hub.docker.com/r/lpineda/sketch-ui/]{https://hub.docker.com/r/lpineda/sketch-ui/}. El comando para descargar la imagen del repositorio público es \textit{docker pull lpineda/sketch-ui}.
 
 
+\clearpage
+\section{Conclusiones}
+Para un flujo de eventos representados como cadenas de caracteres el sistema permite identificar en tiempo real aquellos eventos considerados como \textit{heavy keys}. Codificando los eventos de esta manera agregó complejidad a su desarrollo, pero a su vez el sistema es lo suficientemente flexible para pueda ser integrado en diferentes aplicaciones sin dificultad. En términos del problema tratado y la solución propuesta, podemos concluir que el valor que la misma entrega al usuario radica en al velocidad a la que genera resultados, dado que como el costo de almacenar información hoy en día es sumamente bajo y abundan las soluciones basadas en \textit{bigdata}.
+
+Respecto a la instalación del sistema vemos que no ofrece dificultad alguna dado que esta diseñado como un microservicio. Los contenedores Docker funcionan en cualquier sistema operativo y pueden desplegarse tanto en infraestructura propia del usuario como en el \textit{cloud}.
+
+Es posible modificar las propiedades de los parámetros de detección del sistema usando un archivo de configuración según los datos que se quieren procesar. Los umbrales de detección deben ser configurados acorde a la aplicación, pero podría implementarse un mecanismo de ajuste automático (ver Trabajos futuros).
+
+Podemos observar que las mejoraras en \textit{performance} son más que satisfactorias. Si bien para el presente informe sólo se usaron datos sintéticos y de tráfico de red, el mismo método puede aplicarse en diferentes aplicaciones. Por otro lado, la integración de una \textit{message queue} en el sistema fue fundamental, no solo para incrementar las prestaciones del servicio, sino para permitir escalabilidad: ante grandes volúmenes de eventos enviados al servicio, la carga es soportada por la \textit{message queue}, lo cual evita agregar esta lógica al servicio desarrollado.
+
+La interfaz web muestra, en una sola vista, toda la actividad detectada por el sistema y permite a usuario observar cual es el estado 
+general de los eventos que está analizando, sin necesidad de interactuar con la interfaz.
+
+Finalmente, es importante resaltar el papel de la telemetría en este tipo de soluciones y la cantidad de ingeniería que su despliegue involucra. Es un aspecto fundamental de cualquier sistema que pretende usarse de manera ininterrumpida y al que solo se tenga acceso de manera remota. Así, si bien gran parte de la infraestructura actual del sistema fue implementada solo para estos fines, y se agrega cierta complejidad al código para que la misma pueda ser desplegada adecuadamente, el valor que entrega a los usuarios es de gran importancia.
+
+\clearpage
+
+\section{Trabajos futuros}
+Respecto a la implementación del sistema:
+\begin{itemize}
+	\item Esta implementación usa umbrales que son definidos antes de iniciar el procesamiento de los datos. Esto no supone una limitación dado que aquellos responsables de las infraestructuras a monitorear usualmente tienen una buena idea que implica una anomalía y son capaces de elegir umbrales suficientemente buenos como para lograr resultados adecuados. Sin embargo, es deseable desarrollar algún método por el cual estos parámetros se ajusten dinámicamente, de forma de hacer al sistema agnóstico de la aplicación donde se lo pretende usar.
+	\item Los \textit{sketches} son estructuras basadas en proyecciones lineales, y por lo tanto se pueden realizar combinaciones lineales con los mismos. Esto permitiría soportar una arquitectura de detección distribuida, donde cada instancia del servicio procesa una parte de los eventos generados, para luego agregar los resultados de todas las instancias. De esta manera, puede agregarse redundancia y escalabilidad horizontal a la solución. La implementación de la base de datos clave-valor es un paso en esa dirección, dado que permite contar con un repositorio centralizado donde almacenar las asociaciones de cadenas de caracteres a números enteros.
+	\item Además, al ser matrices de 2 dimensiones, los \textit{sketches} pueden pensarse como imágenes. Existen una miriada de métodos de procesamiento digital de imágenes para entender como éstas varían en el tiempo (podemos pensar una sucesión de épocas como un video, donde cada \textit{sketch} es un \textit{frame}). Resultaría interesante evaluar que conclusiones pueden obtenerse al intentar identificar anomalías bajo este enfoque.
+\end{itemize}
+
+Fuera de la aplicación en detección de ataques a redes de datos, este sistema podría adaptarse a \textit{e-commerce}: es posible instrumentar sitios web para determinar en tiempo real artículo es el mas buscado o más visto, donde cada evento sería el enlace que un usuario accede. Además, podría adaptarse a análisis de texto en tiempo real, para determinar que palabras son las más utilizadas en una red social, o cual es la palabra clave más utilizada en un motor de búsqueda dado.
 
 \clearpage\mbox{}\clearpage
 \section{Apéndices}
 
-\subsection{Funciones de hash k-independientes}\label{k_independent_hash_func}
+\subsection{Funciones de hash}
+Una función hash $H$ es una función computable mediante un algoritmo tal que $H: M \rightarrow N$ y $x \rightarrow h(x)$. Tiene como entrada un conjunto de elementos, que suelen ser cadenas de caracteres, y los convierte en un rango de salida finito, que son normalmente cadenas de caracteres de longitud fija. Es decir, la función actúa como una proyección del conjunto $M$ sobre el conjunto $N$.
+
+Decimos que existe una colisión cuando dos entradas distintas a una función de hash producen la misma salida. Es matemáticamente imposible que una función de hash carezca de colisiones, ya que el número potencial de posibles entradas es mayor que el número de salidas que puede producir un hash. Sin embargo, las colisiones se producen más frecuentemente en los malos algoritmos. En ciertas aplicaciones especializadas con un relativamente pequeño número de entradas que son conocidas de antemano es posible construir una función de hash perfecta, que se asegura que todas las entradas tengan una salida diferente. Pero en una función en la cual se puede introducir datos de longitud arbitraria y que devuelve un hash de tamaño fijo (como MD5), siempre habrá colisiones, debido a que un hash dado puede pertenecer a un infinito número de entradas.
+
+Observar que $N$ puede ser un conjunto definido de enteros. En este caso podemos considerar que la longitud es fija si el conjunto es un rango de números de enteros ya que podemos considerar que la longitud fija es la del número con mayor número de cifras. Todos los números se pueden convertir al número especificado de cifras simplemente anteponiendo ceros.
+
+Normalmente el conjunto $M$ tiene un número elevado de elementos y $N$ es un conjunto de cadenas con un número más o menos pequeño de símbolos. La idea básica de un valor hash es que sirva como una representación compacta de la cadena de entrada. Por esta razón se dice que estas funciones resumen datos del conjunto dominio.
+
+
+\subsubsection{Familias de funciones de hash}
 El objetivo de las funciones de hash es asociar elementos de un gran conjunto a otro más pequeño. En las estructuras de datos probabilísticas, usualmente es deseable que los códigos de hash se comporten de manera aleatoria, pues si se usan funciones de hash determinísticas un adversario podría escoger un conjunto de datos con las mismas pre-imágenes. Ademas, es posible que la elección de una función de hash determinística sea una mala elección para un conjunto de entrada dado (muchas colisiones): escoger aleatoriamente funciones de hash de una familia de funciones evita este problema dado que si bien puede escogerse una función con esta característica, lo más probable es que solo sea un caso asilado.
 Existe una familia de funciones que asegura baja probabilidad de colisiones para un conjunto dado de elementos y comportamiento uniforme en la distribución de las pre-imágenes de los elementos\cite{WEGMAN1981265}.
 
-La familia de funciones $\mathcal{H} = \{h: U \rightarrow \{0, 1, \dots, m-1\} \}$ es \textit{k-independiente} si para $k$ elementos diferentes $(x_1, x_2, \dots, x_k)$ y $k$ códigos de hash (no necesariamente diferentes) $(y_1, y_2, \dots, y_k) \in \{0, 1, \dots, m-1 \}$ tenemos que:
+Podríamos imaginarnos un algoritmo probabilístico de tiempo polinomial con dos mensajes codificados en el algoritmo que dan lugar a una colisión para una específica función resumen. El algoritmo simplemente devolvería los dos mensajes que causan la colisión. Crear tal algoritmo puede ser extremadamente difícil, pero una vez construido podría ser ejecutado en tiempo polinomial. Sin embargo, definiendo una familia de funciones de hash como una familia infinita de funciones hash impide que la búsqueda de este algoritmo tenga éxito para todas las funciones resumen de la familia, porque hay infinitas. Por tanto las familias resumen proporcionan un mecanismo interesante para el estudio y categorización de las funciones resumen respecto a su fortaleza frente a la búsqueda de colisiones por parte de un adversario. Este tipo de estudios es muy útil en el campo de la criptografía para los llamados códigos de detección de modificaciones.
+
+
+\subsubsection{Familias de funciones de hash resistentes a colisiones}
+De forma informal una familia de funciones es familia de funciones de hash resistente a colisiones, también llamadas CRHF por sus siglas en inglés (Collision Resistant Hash Function), si dada una función escogida aleatoriamente de la familia un adversario es incapaz de obtener una colisión para ella\cite{chunyuean}.
+
+A continuación se describen familias de funciones de hash relevantes para este trabajo:
+\subsubsection{Funciones de hash universales}
+La definición de hash universal hace referencia a la propiedad para la cual dos elementos distintos no colisionan muy a menudo. Fue propuesta por Carter y Wegmar en 1979\cite{WEGMAN1981265}.
+
+
+\paragraph{Definición} Sea $M = \{0, 1, \dots m-1 \}$ y $N = \{0, 1, \dots n-1 \}$ con $m \geq n$. Una familia $H$ de funciones de $M$ a $N$ is \textit{2-universal} si, para todo $x,y \in M$ tal que $x\neq y$, y para $h$ elegido uniformemente al azar de $H$, tenemos que: 
 
 \begin{equation}
-\mathcal{P}[h(x_1) = y_1 \hat{\ } \ h(x_2) = y_2 \ \dots \  h(x_k) = y_k] = \frac{1}{m^k}
+	\mathcal{P}[h(x) = h(y)] \leq \frac{1}{n}
 \end{equation}
+Esta condición debe cumplirse para \textit{todo par} de elementos diferentes, y la aleatoriedad es sobre la elección de la función de hash $h$ del conjunto $H$.
 
-La ecuación anterior puede interpretarse de dos maneras:
-\begin{itemize}
-	\item Para un elemento dado $x \in U$, $h(x)$ se distribuye de forma uniforme en $\{0, 1, \dots, m-1 \}$ siempre que $h$ se elija aleatoriamente de $H$.
-	\item Para un conjunto dado de elementos $(x_1, x_2, \dots, x_k) \in U$, si $h$ se elije aleatoriamente de $H$, entonces $h(x_1), h(x_2), \dots, h(x_k)$ son variables aleatorias independientes.
-\end{itemize}
-
+Una asociación completamente aleatoria de $M$ a $N$ tiene una probabilidad de colisión de exactamente $1/n$; por lo tanto, una función elegida al azar de una familia \textit{2-universal} de funciones de hash da una función aproximadamente aleatoria. La colección de todas las funciones de $M$ a $N$ es una familia \textit{2-universal}, pero tiene algunas desventajas: elegir una función de manera aleatoria de este conjunto requiere $\Omega(m \log n)$ bits aleatorios. Esto es además la cantidad de bits de memoria requeridos para representar la función elegida. Es deseable obtener familias de funciones \textit{2-universales} mas pequeñas que requieran menor cantidad de espacio y que sean fáciles de evaluar; en particular, queremos construir familias de funciones \textit{2-universales} que contengan solo un pequeño subconjunto de todas las funciones posibles. La razón por la cual esto es posible es por que una función elegida al azar $h \in H$ debe comportarse como aleatoria solo con respecto a pares de elementos. Si hacemos variar $x$ sobre $M$, los valores $h(x)$ se comportan casi como variables independientes de a pares, razón por la cual se llaman \textit{2-universales}. Por otro lado, para una función $f$ completamente aleatoria, los valores $f(x)$ tienen independencia completa. Las familias de funciones de hash 'fuertemente' \textit{2-universales} tienen una correspondencia exacta con variables aleatorias independientes de a pares.
 
 \
 
+A continuación introduciremos las herramientas necesarias para desarrollar un método de construcción de funciones de hash \textit{2-universales}. Sean $M$, $N$ y $H$. Para cualquier $x,y \in M$ y $h \in H$, definimos la siguiente función que indica la colisión entre los elemento $x$ e $y$ para la función $h$:
 
-\begin{figure*}[htpb]
+\begin{equation}
+	\delta(x,y,h) = \left\{
+								\begin{array}{ll}
+
+									1 & \text{para} \ h(x) = h(y) \ \text{y} \ x \neq y \\
+									0 & \text{de otra manera}
+								\end{array}
+							\right.
+\end{equation}
+
+Para todo $X, Y \subseteq M$, definimos las siguientes extensiones de la función indicador $\delta$:
+
+\begin{equation}
+	\begin{array}{lll}
+		\delta(x,y,H) & = & \sum\limits_{h \in H} \delta(x,y,h) \\[0.5cm]
+		\delta(x,Y,h) & = & \sum\limits_{y \in Y} \delta(x,y,h) \\[0.5cm]
+		\delta(X,Y,h) & = & \sum\limits_{x \in X} \delta(x,Y,h) \\[0.5cm]
+		\delta(x,Y,H) & = & \sum\limits_{y \in Y} \delta(x,y,H) \\[0.5cm]
+		\delta(X,Y,H) & = & \sum\limits_{h \in H} \delta(X,Y,h) \\
+	\end{array}
+\end{equation}
+
+Si $H$ es una familia \textit{2-universal} y para cualquier $x \neq y$, tenemos que $\delta(x,y,H) \leq |H|/n$.
+El siguiente teorema muestra que la definición de \textit{2-universalidad} es esencialmente la mejor posible, dado que no se pueden obtener probabilidades de colisión menores para $m \gg n$ (al menos no significativas).
+
+\begin{theorem}
+
+	Para cualquier familia $H$ de funciones de $M$ a $N$, existe $x, y \in M$ tal que:
+	\begin{equation}
+		\delta(x,y,H) > \frac{|H|}{n} - \frac{|H|}{m}
+	\end{equation}
+\end{theorem}
+
+\begin{proof}
+	Sea $h$ una función tal que $h \in H$, y para cada $z \in N$ definimos el conjunto de elementos de $M$ con imagen $z$ como
+	\begin{equation}
+		A_z = \{  x \in M | h(x) = z \}
+	\end{equation}
+	
+	Los conjuntos $A_z$, para $z \in N$, forman una partición de $M$. Es fácil verificar que:
+	
+	\begin{equation}
+		\delta(A_w,A_z,h) = \left\{
+									\begin{array}{cl}
+										0 & w \neq z \\
+										|A_z|(|A_z| - 1) & w=z
+									\end{array}
+								\right.
+	\end{equation}
+	
+	Esto es así porque para que dos elementos cualesquiera colisionen, ambos deben pertenecer al mismo conjunto $A_z$, y el número de colisiones entre los elementos de $A_z$ es exactamente $|A_z|(|A_z| - 1)$. El número total de colisiones entre todos los pares posibles de elementos se minimiza cuando los conjuntos $A_z$ son todos del mismo tamaño. Tenemos que:
+	
+	\begin{equation}
+		\begin{array}{ll} 
+			\delta(M,M,h) & = \sum\limits_{z \in N} |A_z|(|A_z| - 1) \\[0.5cm]
+									& \geq n (\frac{m}{n} (\frac{m}{n} - 1)) = m^2(\frac{1}{n}-\frac{1}{m})
+		\end{array}
+	\end{equation}
+	
+	El cálculo de $\delta(M,M,h)$ vale para una única función $h \in H$, y por lo tanto $\delta(M,M,H) = \sum_{h \in H} \delta(M,M,h) \geq |H|m^2(1/n-1/m)$. Por el principio del palomar, debe existir un par de elementos $x, y \in M$ tal que:
+	
+	\begin{equation}
+		\begin{array}{ll}
+			\delta(x,y,H) & \geq \frac{\delta(M,M,H)}{m^2} \\[0.5cm]
+								  & = \frac{|H|\delta(M,M,h)}{m^2} \\[0.5cm]
+								  & \geq \frac{|H|m^2(1/n-1/m)}{m^2}\\[0.5cm]
+								  & = |H|(\frac{1}{n}-\frac{1}{m})_{\qed}
+		\end{array}
+	\end{equation}
+
+\end{proof}
+
+\subsubsection{Construcción de una familia de funciones de hash universal}
+La construcción de familias de hash \textit{2-universales} es algebraica. Dados $m$ y $n$, sea $p$ un número primo tal que $p \geq m$. Sea $\mathbf{Z}_p = \{ 0, 1, \dots, p-1\}$ y $g: \mathbf{Z}_p \rightarrow N$ la función dada por $g(x) = x \mod n$. Para todo $a,b \in \mathbf{Z}_p$ definimos la función $f_{a,b}: \mathbf{Z}_p \rightarrow \mathbf{Z}_p$ y la función de hash $h_{a,b}: \mathbf{Z}_p \rightarrow N$ como sigue:
+
+\begin{equation}
+	\begin{array}{ll}
+		f_{a,b} = & ax + b \mod p \\
+		h_{a,b} = & g(f_{a,b}(x))
+	\end{array}
+\end{equation}
+
+Definimos la familia de funciones de hash $H = \{ h_{a,b} | a,b \in \mathbf{Z}_p \ \text{con} \ a \neq 0 \}$ y decimos que es \textit{2-universal}. Aunque $H$ usa $\mathbf{Z}_p$ como su dominio, la definición anterior aplica para cualquier subconjunto de $\mathbf{Z}_p$, en particular el dominio $M$.
+
+\begin{lemma}\label{lemma:pair_colisions}
+
+	Para todo $x,y \in \mathbf{Z}_p$ tal que $x \neq y$:
+	\begin{equation}
+		\delta(x,y,H) = \delta(\mathbf{Z}_p,\mathbf{Z}_p,g)
+	\end{equation}
+\end{lemma}
+\begin{proof}
+	Mostraremos que el número de funciones en $H$ que causan colisión entre $x$ e $y$ está determinado por el tamaño de las clases residuo de $\mathbf{Z}_p \pmod{n}$. Las clases residuo de una función $f(x) \pmod{n}$ son todos los valores posibles del residuo de $f(x) \pmod{n}$. Por ejemplo, las clases residuo de $x^2 \pmod{6}$ son $\{ 0, 1, 3, 4 \}$ dado que todos los residuos posibles son:
+	\begin{equation}
+		\begin{array}{lll}
+			0^2 & \equiv & 0 \pmod{6}\\		
+			1^2 & \equiv & 1 \pmod{6}\\	
+			2^2 & \equiv & 4 \pmod{6}\\	
+			3^2 & \equiv & 3 \pmod{6}\\	
+			4^2 & \equiv & 4 \pmod{6}\\	
+			5^2 & \equiv & 1 \pmod{6}
+		\end{array}
+	\end{equation}
+	
+	Supongamos que $x$ e $y$ colisionan bajo una función específica $h_{a,b}$. Sea $f_{a,b}(x) = r$ y $f_{a,b}(y) = s$, y obsérvese que $r\neq s$ dado que $a \neq 0$ y $x \neq y$. Una colisión solo puede producirse si y solo si $g(r) = g(s)$, o de manera equivalente, si $r \equiv s \pmod{n}$. Ahora, con $x$ e $y$ fijos, para cada elección de $r$ y $s$ tal que $r \neq s$, los valores de $a$ y $b$ quedan determinados de manera única como la solución del siguiente sistema lineal de ecuaciones en $\mathbf{Z}_p$:
+	
+	\begin{equation}
+		\begin{array}{lll}
+			ax+b & \equiv & r \pmod{p} \\
+			ay+b & \equiv & s \pmod{p}
+		\end{array}
+	\end{equation}
+	
+	Por lo tanto, el número de funciones de hash $h_{a,b}$ que causan que $x$ e $y$ colisionen es exactamente el número de elecciones de $r$ y $s$ ($r \neq s$) tales que $r \equiv s \pmod{n}$. Y esto está dado por $\delta(\mathbf{Z}_p,\mathbf{Z}_p,g)_{\qed}$.
+\end{proof}
+\
+
+
+\begin{theorem}
+	La familia de funciones de hash $H={h_{a,b} | a, b \in \mathbf{Z}_p \ \text{con} \ a \neq 0}$ es \textit{2-universal}.
+\end{theorem}
+\begin{proof}
+	Para cada $z \in N$, sea $A_z = \{ x \in \mathbf{Z}_p | g(x) = z \}$. Es claro que $|A_z| \leq \lceil p/n \rceil$. En otras palabras, para cada $r \in \mathbf{Z}_p$ existen al menos $\lceil p/n \rceil$ elecciones diferentes de $s \in \mathbf{Z}_p$ tal que $g(r) = g(s)$. Dado que hay $p$ elecciones diferentes de $r \in \mathbf{Z}_p$ para empezar,
+	\begin{equation}
+		\delta(\mathbf{Z}_p,\mathbf{Z}_p,g) \leq p \left( \lceil p/n \rceil - 1 \right) \leq \frac{p(p-1)}{n}
+	\end{equation}
+	
+	El lema \ref{lemma:pair_colisions} implica que para cualesquiera $x$ e $y$ en $\mathbf{Z}_p$, $\delta(x,y,H) \leq p(p-1)/n$. Dado que el tamaño de $|H|$ es exactamente $p(p-1)$, tenemos que $\delta(x,y,H) \leq |H|/n$. \qed
+\end{proof}
+
+Un resultado conocido en la teoría de números es el postulado de Bertrand el cual dice que para cualquier entero $m$, existe un número primo entre $m$ y $2m$. Entonces podemos elegir $p = O(m)$, y el número de bits aleatorios necesarios para elegir una función de hash de $H$ no es mayor a $2 \log p = O(\log m)$. Elegir, almacenar y evaluar funciones de hash en $H$ es simple y eficiente. Solo es necesario elegir $a$ y $b$ de manera independiente y uniformemente al azar de $\mathbf{Z}_p$. Estos valores pueden ser almacenados en un mínimo de memoria y evaluar $h_{a,b}$ es una tarea trivial.
+
+\
+
+\subsection{Cabeceras de protocolos}
+
+\subsubsection{Cabecera IP}
+El protocolo de internet (en inglés Internet protocol o IP) es un protocolo de comunicación de datos digitales clasificado funcionalmente en la capa de red según el modelo internacional OSI.
+
+Su función principal es el uso bidireccional en origen o destino de comunicación para transmitir datos mediante un protocolo no orientado a conexión que transfiere paquetes conmutados a través de distintas redes físicas previamente enlazadas según la norma OSI de enlace de datos.
+
+\begin{figure*}[h]
 	\centering
 	\begin{bytefield}{32}
 		\bitheader{0,3,4,7,8,15,16,18,19,23,24,31} \\
@@ -792,7 +1340,15 @@ La ecuación anterior puede interpretarse de dos maneras:
 	\vspace{1cm}
 \end{figure*}
 
-\begin{figure*}[htpb]
+\subsubsection{Cabecera TCP}
+
+Protocolo de control de transmisión (en inglés Transmission Control Protocol o TCP), es uno de los protocolos fundamentales en Internet.
+
+Muchos programas dentro de una red de datos compuesta por redes de computadoras, pueden usar TCP para crear “conexiones” entre sí a través de las cuales puede enviarse un flujo de datos. El protocolo garantiza que los datos serán entregados en su destino sin errores y en el mismo orden en que se transmitieron. También proporciona un mecanismo para distinguir distintas aplicaciones dentro de una misma máquina, a través del concepto de puerto.
+
+TCP da soporte a muchas de las aplicaciones más populares de Internet (navegadores, intercambio de ficheros, clientes FTP, etc.) y protocolos de aplicación HTTP, SMTP, SSH y FTP.
+
+\begin{figure*}[h]
 	\centering
 	\begin{bytefield}{32}
 		\bitheader{0,15,31} \\
@@ -804,7 +1360,11 @@ La ecuación anterior puede interpretarse de dos maneras:
 	\caption{Cabecera UDP}
 	\vspace{1cm}
 \end{figure*}
-\begin{figure*}[htpb]
+
+\subsubsection{Cabecera UDP}
+El protocolo de datagramas de usuario (en inglés: User Datagram Protocol o UDP) es un protocolo del nivel de transporte basado en el intercambio de datagramas (Encapsulado de capa 4 o de Transporte del Modelo OSI). Permite el envío de datagramas a través de la red sin que se haya establecido previamente una conexión, ya que el propio datagrama incorpora suficiente información de direccionamiento en su cabecera. Tampoco tiene confirmación ni control de flujo, por lo que los paquetes pueden adelantarse unos a otros; y tampoco se sabe si ha llegado correctamente, ya que no hay confirmación de entrega o recepción. Su uso principal es para protocolos como DHCP, BOOTP, DNS y demás protocolos en los que el intercambio de paquetes de la conexión/desconexión son mayores, o no son rentables con respecto a la información transmitida, así como para la transmisión de audio y vídeo en real, donde no es posible realizar retransmisiones por los estrictos requisitos de retardo que se tiene en estos casos.
+
+\begin{figure*}[h]
 	\centering
 	\begin{bytefield}{32}
 		\bitheader{0,3,4,6,7,15,16,31} \\
@@ -821,9 +1381,41 @@ La ecuación anterior puede interpretarse de dos maneras:
 	\end{bytefield}
 	\caption{Cabecera TCP}
 \end{figure*}
+%
+\clearpage
 
-\newpage
+\section{Anexos}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1.5\textwidth,angle=90]{./graph/system_dashboard.png}
+	\caption{Dashboard del sistema.}
+	\label{diag:system_dashbard}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.5\textwidth,angle=90]{./graph/service_dashboard.png}
+	\caption{Dashboard del servicio.}
+	\label{diag:service_dashboard}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.2\textwidth,angle=90]{./graph/prometheus.jpeg}
+	\caption{Arquitectura de Prometheus.}
+	\label{diag:prometheus}
+\end{figure}
+
+\clearpage
+
+\listoffigures
+
+\clearpage
+
 \nocite{*}
 \printbibliography
+
+
 \end{document}
 
