@@ -83,7 +83,7 @@ De la misma manera que surgieron técnicas para procesar datos almacenados en so
 
 Las técnicas de \textit{Data Streaming} pueden aplicarse en diversos campos. En particular, la detección en tiempo real de ciertos patrones en los flujos de datos de una red de computadoras (que en algunos casos pueden ayudar a determinar incidentes tales como escaneo de puertos, ataques de denegación de servicio, expansión de \textit{malware} entre otros), es de vital importancia para salvaguardar la integridad de dicha infraestructura informática. Estas anomalías pueden encontrarse analizando los flujos de datos y llevando cuenta de todos los paquetes que atraviesan los puntos de acceso a la red. En la capa de transporte, el protocolo TCP (que provee conexión host a host sobre IP) provee información suficiente para identificar estos patrones. Para llevar a cabo el análisis en tiempo real de los segmentos TCP que son transportados, utilizaremos el modelo de \textit{Data Streaming}.
 
-Además, se describirá la arquitectura de un sistema basado en microservicios que implementa un algoritmo basado en \textit{sketches} y las tecnologías empleadas para su desarrollo. Finalmente, se mostrarán los resultados de las pruebas realizadas.
+Además, se describirá la arquitectura de un sistema basado en microservicios que implementa un algoritmo basado en estructuras de datos probabilísticas y las tecnologías empleadas para su desarrollo. Finalmente, se mostrarán los resultados de las pruebas realizadas.
 
 \newpage
 
@@ -180,7 +180,7 @@ El problema de los elementos frecuentes es uno de los más estudiados desde los 
 
 Podemos dividir los algoritmos para encontrar elementos frecuentes en tres clases. Los \textbf{algoritmos basados en conteo} operan sobre un subconjunto de elementos y mantienen un contador asociado a los mismos. Por cada entrada nueva, el algoritmo decide si actualizar o no el contador del elemento, y de hacerlo, con que valor lo afecta. 
 La segunda clase de algoritmos, que no será analizada en este documento, es una derivación de los \textbf{algoritmos de cuantiles}; el problema de encontrar cuantiles en la distribución de un \textit{stream} de datos nos permite encontrar elementos frecuentes.
-Finalmente, los algoritmos basados en \textbf{\textit{sketchs}} utilizan proyecciones lineales aleatorias de las entradas\cite{Cormode:2008:FFI:1454159.1454225} (vistas como vectores de características) y por lo tanto, no almacenan explícitamente los elementos de entrada. Estos últimos tienen ciertas propiedades que son de gran utilidad para procesamiento de múltiples \textit{streams} de datos.
+Finalmente, los algoritmos basados en \textbf{\textit{sketches}} utilizan proyecciones lineales aleatorias de las entradas\cite{Cormode:2008:FFI:1454159.1454225} (vistas como vectores de características) y por lo tanto, no almacenan explícitamente los elementos de entrada. Estos últimos tienen ciertas propiedades que son de gran utilidad para procesamiento de múltiples \textit{streams} de datos.
 
 \subsection{Elementos frecuentes en data streams}\label{elementos_frecuentes_en_datastreams}
 Antes de describir los algoritmos para encontrar elementos frecuentes es necesario enunciar formalmente el problema.
@@ -254,7 +254,7 @@ Este tipo de problemas y similares llevaron al desarrollo de diferentes técnica
 \newpage
 
 \section{Técnicas para encontrar elementos frecuentes}\label{sec:tecnicas_elementos_frecuentes}
-En algunos escenarios, resolver exactamente el problema de los $phi$ elementos frecuentes que se enunció en la sección \ref{elementos_frecuentes} es inviable dado a los requerimientos de espacio que presenta\cite{Charikar:2002:FFI:646255.684566}. Se han propuesto gran variedad de algoritmos para la resolución del mismo y sus variaciones \cite{Charikar:2002:FFI:646255.684566}\cite{Cormode:2005:WHW:1061318.1061325}\cite{Demaine:2002:FEI:647912.740658}\cite{Manku:2002:AFC:1287369.1287400}. Cómo se mencionó anteriormente, esta técnicas pueden se clasificas en dos tipos, que se describen a continuación.
+En algunos escenarios, resolver exactamente el problema de los $phi$ elementos frecuentes que se enunció en la sección \ref{elementos_frecuentes} es inviable dado a los requerimientos de espacio que presenta\cite{Charikar:2002:FFI:646255.684566}. Se han propuesto gran variedad de algoritmos para la resolución del mismo y sus variaciones \cite{Charikar:2002:FFI:646255.684566}\cite{Cormode:2005:WHW:1061318.1061325}\cite{Demaine:2002:FEI:647912.740658}\cite{Manku:2002:AFC:1287369.1287400}. Cómo se mencionó anteriormente, esta técnicas pueden ser clasificas en dos tipos, que se describen a continuación.
 
 \subsection{Técnicas basadas en conteo}\label{tecnicas_conteo}
 
@@ -586,7 +586,7 @@ La lista de ataques podría extenderse, pero de forma general podemos concluir q
 \newpage 
 
 \section{Modelado del problema}\label{sec:modelado_del_problema}
-El tráfico de red puede ser caracterizado de muchas maneras, dependiendo de la capa de red que se esté analizando. Por ejemplo, en la actualidad la industria de la seguridad informática está adoptando cada vez más las soluciones basadas en \textit{User and Entity Behavior Analytics} o UEBA para detectar amenazas que puedan originarse dentro de la organización, ataques dirigidos o fraude. Estas soluciones analizan el comportamiento de comportamiento humano (y por lo tanto hacen uso de la información provista por la capa de aplicación), y luego aplican algoritmos y análisis estadístico para detectar patrones anómalos, los cuales pueden indicar potenciales amenazas.
+El tráfico de red puede ser caracterizado de muchas maneras, dependiendo de la capa de red que se esté analizando. Por ejemplo, en la actualidad la industria de la seguridad informática está adoptando cada vez más las soluciones basadas en \textit{User and Entity Behavior Analytics} o UEBA para detectar amenazas que puedan originarse dentro de la organización, ataques dirigidos o fraude. Estas soluciones analizan patrones de comportamiento humano (y por lo tanto hacen uso de la información provista por la capa de aplicación), y luego aplican algoritmos y análisis estadístico para detectar patrones anómalos, los cuales pueden indicar potenciales amenazas.
 
 Por otro lado, podemos extraer datos de otras capas de más bajo nivel. La información que proveen las cabeceras de los segmentos TCP resulta sumamente conveniente debido a que:
 \begin{itemize}
