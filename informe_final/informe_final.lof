@@ -1,57 +1,56 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {spanish}{}
 \defcounter {refsection}{0}\relax 
-\select@language {spanish}
+\contentsline {figure}{\numberline {1}{\ignorespaces Gr\IeC {\'a}fica conceptual de BigData vs Streaming Data\relax }}{11}{figure.caption.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces Gr\IeC {\'a}fica conceptual de BigData vs Streaming Data\relax }}{7}{figure.caption.2}
+\contentsline {figure}{\numberline {2}{\ignorespaces Uso de memoria en funci\IeC {\'o}n del tama\IeC {\~n}o del universo de elementos posibles.\relax }}{17}{figure.caption.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {2}{\ignorespaces Uso de memoria en funci\IeC {\'o}n del tama\IeC {\~n}o del universo de elementos posibles.\relax }}{12}{figure.caption.3}
+\contentsline {figure}{\numberline {3}{\ignorespaces Filtro Bloom\relax }}{23}{figure.caption.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {3}{\ignorespaces Filtro Bloom\relax }}{15}{figure.caption.8}
+\contentsline {figure}{\numberline {4}{\ignorespaces COUNTMIN Sketch\relax }}{26}{figure.caption.11}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {4}{\ignorespaces COUNTMIN Sketch\relax }}{17}{figure.caption.9}
+\contentsline {figure}{\numberline {5}{\ignorespaces Componentes del sistema\relax }}{37}{figure.caption.20}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5}{\ignorespaces Componentes del sistema\relax }}{26}{figure.caption.18}
+\contentsline {figure}{\numberline {6}{\ignorespaces Entidades del sistema y su interacci\IeC {\'o}n\relax }}{38}{figure.caption.21}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {6}{\ignorespaces Entidades del sistema y su interacci\IeC {\'o}n\relax }}{27}{figure.caption.19}
+\contentsline {figure}{\numberline {7}{\ignorespaces Diagrama de secuencia asociaci\IeC {\'o}n de valor entero a evento.\relax }}{38}{figure.caption.22}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {7}{\ignorespaces Diagrama de secuencia asociaci\IeC {\'o}n de valor entero a evento.\relax }}{27}{figure.caption.20}
+\contentsline {figure}{\numberline {8}{\ignorespaces Diagrama de secuencia nuevo evento.\relax }}{39}{figure.caption.23}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {8}{\ignorespaces Diagrama de secuencia nuevo evento.\relax }}{28}{figure.caption.21}
+\contentsline {figure}{\numberline {9}{\ignorespaces Diagrama de secuencia rotaci\IeC {\'o}n de sketches.\relax }}{40}{figure.caption.24}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {9}{\ignorespaces Diagrama de secuencia rotaci\IeC {\'o}n de sketches.\relax }}{28}{figure.caption.22}
+\contentsline {figure}{\numberline {10}{\ignorespaces Diagrama de secuencia detecci\IeC {\'o}n de \textit {heavy keys}.\relax }}{40}{figure.caption.25}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {10}{\ignorespaces Diagrama de secuencia detecci\IeC {\'o}n de \textit {heavy keys}.\relax }}{29}{figure.caption.23}
+\contentsline {figure}{\numberline {11}{\ignorespaces Interfaz web del sistema.\relax }}{42}{figure.caption.26}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {11}{\ignorespaces Interfaz web del sistema.\relax }}{30}{figure.caption.24}
+\contentsline {figure}{\numberline {12}{\ignorespaces Infraestructura completa del servicio, incluyendo telemetr\IeC {\'\i }a.\relax }}{44}{figure.caption.27}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {12}{\ignorespaces Infraestructura completa del servicio, incluyendo telemetr\IeC {\'\i }a.\relax }}{32}{figure.caption.25}
+\contentsline {figure}{\numberline {13}{\ignorespaces Distribuci\IeC {\'o}n de los eventos en el tiempo\relax }}{48}{figure.caption.28}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {13}{\ignorespaces Distribuci\IeC {\'o}n de los eventos en el tiempo\relax }}{36}{figure.caption.26}
+\contentsline {figure}{\numberline {14}{\ignorespaces HeavyKeys detectadas\relax }}{49}{figure.caption.29}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {14}{\ignorespaces HeavyKeys detectadas\relax }}{36}{figure.caption.26}
+\contentsline {figure}{\numberline {15}{\ignorespaces Conversaciones TCP del archivo de captura de tr\IeC {\'a}fico de red\relax }}{50}{figure.caption.30}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {15}{\ignorespaces Conversaciones TCP del archivo de captura de tr\IeC {\'a}fico de red\relax }}{37}{figure.caption.27}
+\contentsline {figure}{\numberline {16}{\ignorespaces Eventos procesados a lo largo del experimento (REST API).\relax }}{51}{figure.caption.31}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {16}{\ignorespaces Eventos procesados a lo largo del experimento (REST API).\relax }}{38}{figure.caption.28}
+\contentsline {figure}{\numberline {17}{\ignorespaces Eventos procesados a lo largo del experimento (Message Queue).\relax }}{51}{figure.caption.32}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {17}{\ignorespaces Eventos procesados a lo largo del experimento (Message Queue).\relax }}{39}{figure.caption.29}
+\contentsline {figure}{\numberline {18}{\ignorespaces Eventos procesados por segundo.\relax }}{53}{figure.caption.33}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {18}{\ignorespaces Eventos procesados por segundo.\relax }}{39}{figure.caption.30}
+\contentsline {figure}{\numberline {19}{\ignorespaces Memoria de la Java Virtual Machine.\relax }}{53}{figure.caption.34}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {19}{\ignorespaces Memoria de la Java Virtual Machine.\relax }}{40}{figure.caption.31}
+\contentsline {figure}{\numberline {20}{\ignorespaces Consumo de CPU.\relax }}{53}{figure.caption.35}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {20}{\ignorespaces Consumo de CPU.\relax }}{40}{figure.caption.32}
+\contentsline {figure}{\numberline {21}{\ignorespaces Consumo de memoria de los contenedores.\relax }}{54}{figure.caption.36}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {21}{\ignorespaces Consumo de memoria de los contenedores.\relax }}{40}{figure.caption.33}
+\contentsline {figure}{\numberline {22}{\ignorespaces Cabecera IP\relax }}{66}{figure.caption.38}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {22}{\ignorespaces Cabecera IP\relax }}{49}{figure.caption.35}
+\contentsline {figure}{\numberline {23}{\ignorespaces Cabecera UDP\relax }}{66}{figure.caption.39}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {23}{\ignorespaces Cabecera UDP\relax }}{49}{figure.caption.36}
+\contentsline {figure}{\numberline {24}{\ignorespaces Cabecera TCP\relax }}{67}{figure.caption.40}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {24}{\ignorespaces Cabecera TCP\relax }}{49}{figure.caption.37}
+\contentsline {figure}{\numberline {25}{\ignorespaces Dashboard del sistema.\relax }}{69}{figure.caption.41}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {25}{\ignorespaces Dashboard del sistema.\relax }}{50}{figure.caption.38}
+\contentsline {figure}{\numberline {26}{\ignorespaces Dashboard del servicio.\relax }}{70}{figure.caption.42}
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {26}{\ignorespaces Dashboard del servicio.\relax }}{51}{figure.caption.39}
-\defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {27}{\ignorespaces Arquitectura de Prometheus.\relax }}{52}{figure.caption.40}
+\contentsline {figure}{\numberline {27}{\ignorespaces Arquitectura de Prometheus.\relax }}{71}{figure.caption.43}

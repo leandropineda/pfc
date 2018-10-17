@@ -1,149 +1,144 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
-\defcounter {refsection}{0}\relax 
-\select@language {spanish}
+\babel@toc {spanish}{}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{4}{section.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2}Detecci\IeC {\'o}n de anomal\IeC {\'\i }as}{5}{section.2}
+\contentsline {section}{\numberline {2}Detecci\IeC {\'o}n de anomal\IeC {\'\i }as}{8}{section.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.1}M\IeC {\'e}todos de detecci\IeC {\'o}n}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.1}Enfoque estad\IeC {\'\i }stico}{8}{subsection.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.1.1}Enfoque estad\IeC {\'\i }stico}{5}{subsubsection.2.1.1}
+\contentsline {subsection}{\numberline {2.2}Enfoque espectral}{8}{subsection.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.1.2}Enfoque espectral}{5}{subsubsection.2.1.2}
+\contentsline {subsection}{\numberline {2.3}Enfoque basado en Machine Learning}{8}{subsection.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.1.3}Enfoque basado en Machine Learning}{5}{subsubsection.2.1.3}
+\contentsline {subsection}{\numberline {2.4}Enfoque basado en Data Streaming}{9}{subsection.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.1.4}El enfoque de \textit {streaming}}{6}{subsubsection.2.1.4}
+\contentsline {subsection}{\numberline {2.5}Comparaci\IeC {\'o}n de los m\IeC {\'e}todos o enfoques}{9}{subsection.2.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2}Comparaci\IeC {\'o}n de los m\IeC {\'e}todos}{6}{subsection.2.2}
+\contentsline {section}{\numberline {3}Data Streaming}{11}{section.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Data Streaming}{7}{section.3}
+\contentsline {subsection}{\numberline {3.1}El modelo de Data Streaming}{12}{subsection.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1}El modelo de Data Streaming}{8}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}Modelo de series de tiempo}{13}{subsubsection.3.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.1.1}Modelo de series de tiempo}{8}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}Modelo de caja registradora}{13}{subsubsection.3.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.1.2}Modelo de caja registradora}{8}{subsubsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.3}El modelo Turnstile}{13}{subsubsection.3.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.1.3}El modelo Turnstile}{9}{subsubsection.3.1.3}
+\contentsline {section}{\numberline {4}El problema de los elementos frecuentes}{15}{section.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}El problema de los elementos frecuentes}{10}{section.4}
+\contentsline {subsection}{\numberline {4.1}Elementos frecuentes en data streams}{15}{subsection.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}Elementos frecuentes en data streams}{10}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Elementos frecuentes}{15}{subsubsection.4.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.1.1}Elementos frecuentes}{10}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}$\epsilon $-aproximaci\IeC {\'o}n de elementos frecuentes}{15}{subsubsection.4.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.1.2}$\epsilon $-aproximaci\IeC {\'o}n de elementos frecuentes}{10}{subsubsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.3}Estimaci\IeC {\'o}n de la frecuencia de un elemento}{16}{subsubsection.4.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.1.3}Estimaci\IeC {\'o}n de la frecuencia de un elemento}{10}{subsubsection.4.1.3}
+\contentsline {subsection}{\numberline {4.2}Elementos frecuentes: un escenario de aplicaci\IeC {\'o}n}{16}{subsection.4.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Elementos frecuentes: un escenario de aplicaci\IeC {\'o}n}{11}{subsection.4.2}
+\contentsline {section}{\numberline {5}T\IeC {\'e}cnicas para encontrar elementos frecuentes}{19}{section.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}T\IeC {\'e}cnicas para encontrar elementos frecuentes}{12}{section.5}
+\contentsline {subsection}{\numberline {5.1}T\IeC {\'e}cnicas basadas en conteo}{19}{subsection.5.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1}T\IeC {\'e}cnicas basadas en conteo}{12}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}MAJORITY}{19}{subsubsection.5.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {5.1.1}MAJORITY}{12}{subsubsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.2}FREQUENT}{20}{subsubsection.5.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {5.1.2}FREQUENT}{13}{subsubsection.5.1.2}
+\contentsline {paragraph}{Prueba}{20}{section*.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Teorema}{13}{section*.5}
+\contentsline {subsection}{\numberline {5.2}T\IeC {\'e}cnicas basadas en sketches}{22}{subsection.5.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Prueba}{13}{section*.6}
+\contentsline {subsubsection}{\numberline {5.2.1}Filtros Bloom}{23}{subsubsection.5.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2}T\IeC {\'e}cnicas basadas en sketches}{14}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.2}CountMin Sketch}{24}{subsubsection.5.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {5.2.1}Filtros Bloom}{15}{subsubsection.5.2.1}
+\contentsline {subsection}{\numberline {5.3}Estructura de datos propuesta}{26}{subsection.5.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {5.2.2}CountMin Sketch}{16}{subsubsection.5.2.2}
+\contentsline {paragraph}{Lema 1}{27}{section*.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Teorema}{17}{section*.10}
+\contentsline {subsubsection}{\numberline {5.3.1}Construcci\IeC {\'o}n de las funciones de hash}{27}{subsubsection.5.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.3}Estructura de datos propuesta}{17}{subsection.5.3}
+\contentsline {subsubsection}{\numberline {5.3.2}Proceso de actualizaci\IeC {\'o}n}{27}{subsubsection.5.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Lema 1}{18}{section*.11}
+\contentsline {subsubsection}{\numberline {5.3.3}Detecci\IeC {\'o}n de heavy keys}{29}{subsubsection.5.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {5.3.1}Construcci\IeC {\'o}n de las funciones de hash}{18}{subsubsection.5.3.1}
+\contentsline {paragraph}{Lema 2}{29}{section*.16}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {5.3.2}Proceso de actualizaci\IeC {\'o}n}{18}{subsubsection.5.3.2}
+\contentsline {subsection}{\numberline {5.4}Detecci\IeC {\'o}n de anomal\IeC {\'\i }as en tr\IeC {\'a}fico de red}{29}{subsection.5.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {5.3.3}Detecci\IeC {\'o}n de heavy keys}{19}{subsubsection.5.3.3}
+\contentsline {section}{\numberline {6}Modelado del problema}{32}{section.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Lema 2}{20}{section*.14}
+\contentsline {section}{\numberline {7}Dise\IeC {\~n}o del sistema}{34}{section.7}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.4}Detecci\IeC {\'o}n de anomal\IeC {\'\i }as en tr\IeC {\'a}fico de red}{20}{subsection.5.4}
+\contentsline {subsection}{\numberline {7.1}Arquitectura del sistema}{34}{subsection.7.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6}Modelado del problema}{22}{section.6}
+\contentsline {paragraph}{Comunicaci\IeC {\'o}n entre procesos}{34}{section*.17}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7}Dise\IeC {\~n}o del sistema}{24}{section.7}
+\contentsline {paragraph}{Invocaci\IeC {\'o}n remota}{35}{section*.18}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.1}Arquitectura del sistema}{24}{subsection.7.1}
+\contentsline {paragraph}{Comunicaci\IeC {\'o}n indirecta}{35}{section*.19}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Comunicaci\IeC {\'o}n entre procesos}{24}{section*.15}
+\contentsline {subsection}{\numberline {7.2}Implementaci\IeC {\'o}n del sistema}{37}{subsection.7.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Invocaci\IeC {\'o}n remota}{24}{section*.16}
+\contentsline {subsection}{\numberline {7.3}Recursos REST}{41}{subsection.7.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Comunicaci\IeC {\'o}n indirecta}{25}{section*.17}
+\contentsline {subsection}{\numberline {7.4}Interfaz gr\IeC {\'a}fica}{41}{subsection.7.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.2}Implementaci\IeC {\'o}n del sistema}{26}{subsection.7.2}
+\contentsline {section}{\numberline {8}Telemetr\IeC {\'\i }a}{43}{section.8}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.3}Recursos REST}{29}{subsection.7.3}
+\contentsline {section}{\numberline {9}Tecnolog\IeC {\'\i }as utilizadas}{45}{section.9}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {7.4}Interfaz gr\IeC {\'a}fica}{30}{subsection.7.4}
+\contentsline {subsection}{\numberline {9.1}Desarrollo del servicio principal}{45}{subsection.9.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {8}Telemetr\IeC {\'\i }a}{32}{section.8}
+\contentsline {subsection}{\numberline {9.2}Base de datos clave-valor}{46}{subsection.9.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {9}Tecnolog\IeC {\'\i }as utilizadas}{34}{section.9}
+\contentsline {subsection}{\numberline {9.3}Telemetr\IeC {\'\i }a}{47}{subsection.9.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {9.1}Desarrollo del servicio principal}{34}{subsection.9.1}
+\contentsline {subsection}{\numberline {9.4}Monitoreo de los contenedores}{47}{subsection.9.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {9.2}Base de datos clave-valor}{34}{subsection.9.2}
+\contentsline {section}{\numberline {10}Pruebas realizadas}{48}{section.10}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {9.3}Telemetr\IeC {\'\i }a}{35}{subsection.9.3}
+\contentsline {subsection}{\numberline {10.1}Patrones de eventos generados localmente}{48}{subsection.10.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {9.4}Monitoreo de los contenedores}{35}{subsection.9.4}
+\contentsline {subsection}{\numberline {10.2}Trafico de red}{49}{subsection.10.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {10}Pruebas realizadas}{36}{section.10}
+\contentsline {subsection}{\numberline {10.3}Mejoras de performance}{50}{subsection.10.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {10.1}Patrones de eventos generados localmente}{36}{subsection.10.1}
+\contentsline {subsubsection}{\numberline {10.3.1}Implementaci\IeC {\'o}n inicial: REST API}{50}{subsubsection.10.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {10.2}Trafico de red}{37}{subsection.10.2}
+\contentsline {subsubsection}{\numberline {10.3.2}Nueva implementaci\IeC {\'o}n: Messaging Queue}{51}{subsubsection.10.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {10.3}Mejoras de performance}{37}{subsection.10.3}
+\contentsline {subsection}{\numberline {10.4}Pruebas de longevidad}{52}{subsection.10.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {10.3.1}Implementaci\IeC {\'o}n inicial: REST API}{37}{subsubsection.10.3.1}
+\contentsline {section}{\numberline {11}Instalaci\IeC {\'o}n}{55}{section.11}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {10.3.2}Nueva implementaci\IeC {\'o}n: Messaging Queue}{38}{subsubsection.10.3.2}
+\contentsline {section}{\numberline {12}Conclusiones}{56}{section.12}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {10.4}Pruebas de longevidad}{39}{subsection.10.4}
+\contentsline {section}{\numberline {13}Trabajos futuros}{59}{section.13}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {11}Instalaci\IeC {\'o}n}{41}{section.11}
+\contentsline {section}{\numberline {14}Ap\IeC {\'e}ndices}{61}{section.14}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {12}Conclusiones}{42}{section.12}
+\contentsline {subsection}{\numberline {14.1}Funciones de hash}{61}{subsection.14.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {13}Trabajos futuros}{43}{section.13}
+\contentsline {subsubsection}{\numberline {14.1.1}Familias de funciones de hash}{61}{subsubsection.14.1.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {14}Ap\IeC {\'e}ndices}{45}{section.14}
+\contentsline {subsubsection}{\numberline {14.1.2}Familias de funciones de hash resistentes a colisiones}{62}{subsubsection.14.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {14.1}Funciones de hash}{45}{subsection.14.1}
+\contentsline {subsubsection}{\numberline {14.1.3}Funciones de hash universales}{62}{subsubsection.14.1.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {14.1.1}Familias de funciones de hash}{45}{subsubsection.14.1.1}
+\contentsline {paragraph}{Definici\IeC {\'o}n}{62}{section*.37}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {14.1.2}Familias de funciones de hash resistentes a colisiones}{45}{subsubsection.14.1.2}
+\contentsline {subsubsection}{\numberline {14.1.4}Construcci\IeC {\'o}n de una familia de funciones de hash universal}{64}{subsubsection.14.1.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {14.1.3}Funciones de hash universales}{46}{subsubsection.14.1.3}
+\contentsline {subsection}{\numberline {14.2}Cabeceras de protocolos}{65}{subsection.14.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{Definici\IeC {\'o}n}{46}{section*.34}
+\contentsline {subsubsection}{\numberline {14.2.1}Cabecera IP}{65}{subsubsection.14.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {14.1.4}Construcci\IeC {\'o}n de una familia de funciones de hash universal}{47}{subsubsection.14.1.4}
+\contentsline {subsubsection}{\numberline {14.2.2}Cabecera TCP}{66}{subsubsection.14.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {14.2}Cabeceras de protocolos}{48}{subsection.14.2}
+\contentsline {subsubsection}{\numberline {14.2.3}Cabecera UDP}{66}{subsubsection.14.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {14.2.1}Cabecera IP}{48}{subsubsection.14.2.1}
+\contentsline {section}{\numberline {15}Glosario}{68}{section.15}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {14.2.2}Cabecera TCP}{48}{subsubsection.14.2.2}
-\defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {14.2.3}Cabecera UDP}{49}{subsubsection.14.2.3}
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {15}Anexos}{50}{section.15}
+\contentsline {section}{\numberline {16}Anexos}{69}{section.16}
